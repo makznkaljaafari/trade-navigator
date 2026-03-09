@@ -19,6 +19,7 @@ const ShippingPage = lazy(() => import("./pages/ShippingPage"));
 const InventoryPage = lazy(() => import("./pages/InventoryPage"));
 const SalesPage = lazy(() => import("./pages/SalesPage"));
 const ExpensesPage = lazy(() => import("./pages/ExpensesPage"));
+const CurrencyPage = lazy(() => import("./pages/CurrencyPage"));
 
 const queryClient = new QueryClient();
 

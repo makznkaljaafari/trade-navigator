@@ -1,0 +1,108 @@
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { mockSuppliers } from '@/data/mock-data';
+import { Button } from '@/components/ui/button';
+import { FileText, ArrowLeftRight } from 'lucide-react';
+
+const mockQuotations = [
+  {
+    id: '1', supplier_id: '1', supplier_name: 'وانغ لي - Guangzhou Auto Parts', date: '2025-01-12',
+    items: [
+      { product: 'فلتر زيت تويوتا', oem: '04152-YZZA1', qty: 500, price: 8 },
+      { product: 'فلتر هواء كامري', oem: '17801-0H050', qty: 300, price: 12 },
+    ]
+  },
+  {
+    id: '2', supplier_id: '3', supplier_name: 'ليو هوا - Shanghai Brake Systems', date: '2025-01-14',
+    items: [
+      { product: 'فلتر زيت تويوتا', oem: '04152-YZZA1', qty: 500, price: 9.5 },
+      { product: 'فلتر هواء كامري', oem: '17801-0H050', qty: 300, price: 11 },
+    ]
+  },
+];
+
+export default function QuotationsPage() {
+  const [comparing, setComparing] = useState(false);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-bold">عروض الأسعار</h3>
+        <Button onClick={() => setComparing(!comparing)} variant={comparing ? "default" : "outline"} className="gap-2">
+          <ArrowLeftRight className="w-4 h-4" /> {comparing ? 'إنهاء المقارنة' : 'مقارنة العروض'}
+        </Button>
+      </div>
+
+      {comparing ? (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-card rounded-xl border border-border shadow-sm overflow-x-auto">
+          <table className="w-full min-w-[600px]">
+            <thead>
+              <tr>
+                <th className="spreadsheet-header">المنتج</th>
+                <th className="spreadsheet-header">OEM</th>
+                {mockQuotations.map(q => (
+                  <th key={q.id} className="spreadsheet-header text-center">{q.supplier_name.split(' - ')[0]}</th>
+                ))}
+                <th className="spreadsheet-header">الفرق</th>
+              </tr>
+            </thead>
+            <tbody>
+              {mockQuotations[0].items.map((item, i) => {
+                const prices = mockQuotations.map(q => q.items[i]?.price || 0);
+                const minPrice = Math.min(...prices);
+                const diff = Math.max(...prices) - minPrice;
+                return (
+                  <tr key={i} className="hover:bg-muted/30">
+                    <td className="spreadsheet-cell text-sm font-medium">{item.product}</td>
+                    <td className="spreadsheet-cell text-sm font-mono">{item.oem}</td>
+                    {prices.map((p, j) => (
+                      <td key={j} className={`spreadsheet-cell text-center text-sm font-bold ${p === minPrice ? 'text-accent' : ''}`}>
+                        ¥{p}
+                      </td>
+                    ))}
+                    <td className="spreadsheet-cell text-center text-sm text-destructive font-semibold">¥{diff.toFixed(1)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </motion.div>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2">
+          {mockQuotations.map((q, i) => (
+            <motion.div
+              key={q.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-card rounded-xl border border-border p-4 shadow-sm"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 rounded-lg gradient-primary"><FileText className="w-4 h-4 text-primary-foreground" /></div>
+                <div>
+                  <h4 className="font-bold text-sm">{q.supplier_name}</h4>
+                  <p className="text-xs text-muted-foreground">{q.date}</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                {q.items.map((item, j) => (
+                  <div key={j} className="flex justify-between items-center p-2 bg-muted/50 rounded-lg text-sm">
+                    <div>
+                      <p className="font-medium">{item.product}</p>
+                      <p className="text-xs text-muted-foreground">{item.qty} قطعة</p>
+                    </div>
+                    <span className="font-bold">¥{item.price}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-3 pt-3 border-t border-border text-sm font-bold flex justify-between">
+                <span>الإجمالي:</span>
+                <span>¥{q.items.reduce((s, it) => s + it.qty * it.price, 0).toLocaleString()}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

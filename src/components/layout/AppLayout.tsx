@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, Plane, Users, Package, FileText, Ship,
   Warehouse, ShoppingCart, Receipt, DollarSign, Menu, X,
-  Settings, ChevronLeft
+  Settings, RefreshCw
 } from 'lucide-react';
 import logoImg from '@/assets/logo.png';
 

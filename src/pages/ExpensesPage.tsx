@@ -200,7 +200,7 @@ export default function ExpensesPage() {
                         <MoreVertical className="w-4 h-4 text-muted-foreground" />
                       </button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" dir="rtl">
+                    <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={() => handleEdit(exp)}>
                         <Edit2 className="w-4 h-4 ml-2" />
                         تعديل

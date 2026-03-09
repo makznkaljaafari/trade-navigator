@@ -197,7 +197,7 @@ export default function SuppliersPage() {
                         <MoreVertical className="w-4 h-4 text-muted-foreground" />
                       </button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" dir="rtl">
+                    <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={() => handleEdit(sup)}>
                         <Edit2 className="w-4 h-4 ml-2" />
                         تعديل

@@ -15,7 +15,7 @@ export function exportToCSV<T = any>(
   const headers = columns.map(col => col.header);
   
   // Create data rows
-  const rows = data.map(item => {
+  const rows = data.map((item: Record<string, unknown>) => {
     return columns.map(col => {
       const value = item[col.key];
       // Handle different types

@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button';
 import { exportToCSV } from '@/lib/export';
 import { toast } from '@/hooks/use-toast';
 
-interface ExportButtonProps<T extends Record<string, unknown>> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface ExportButtonProps<T = any> {
   data: T[];
   columns: { key: string; header: string }[];
   filename: string;

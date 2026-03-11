@@ -173,6 +173,18 @@ export default function PurchasesPage() {
           <EditableTable data={activeInvoice.items} columns={columns} onCellChange={onCellChange} footer={footer} />
         </div>
       </div>
+
+      {/* Hidden print layout */}
+      <div className="hidden print:block">
+        <InvoicePrint
+          ref={printRef}
+          type="purchase"
+          invoiceNumber={activeInvoice.number}
+          date={activeInvoice.date}
+          partyName={activeInvoice.supplier}
+          items={activeInvoice.items.map(i => ({ ...i, price: i.purchase_price }))}
+        />
+      </div>
     </div>
   );
 }

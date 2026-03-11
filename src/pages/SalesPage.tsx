@@ -1,10 +1,11 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Receipt } from 'lucide-react';
+import { Plus, Receipt, Printer } from 'lucide-react';
 import { PageHeader, EditableTable } from '@/components/shared';
 import type { ColumnDef } from '@/components/shared';
 import { formatNumber, generateId } from '@/lib/helpers';
 import { Button } from '@/components/ui/button';
+import { InvoicePrint } from '@/components/shared/InvoicePrint';
 
 interface SaleItem {
   id: string;

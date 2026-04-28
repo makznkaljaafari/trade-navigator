@@ -1,11 +1,12 @@
 import { useState, useCallback, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Plus, Receipt, Printer } from 'lucide-react';
+import { Plus, Printer } from 'lucide-react';
 import { PageHeader, EditableTable } from '@/components/shared';
 import type { ColumnDef } from '@/components/shared';
 import { formatNumber, generateId } from '@/lib/helpers';
 import { Button } from '@/components/ui/button';
 import { InvoicePrint } from '@/components/shared/InvoicePrint';
+import { InvoiceSidebar } from '@/components/invoices/InvoiceSidebar';
+import { InvoiceHeader } from '@/components/invoices/InvoiceHeader';
 
 interface SaleItem {
   id: string;
@@ -105,6 +106,13 @@ export default function SalesPage() {
     </tr>
   );
 
+  const sidebarItems = invoices.map(inv => ({
+    id: inv.id,
+    number: inv.number,
+    subtitle: inv.customer,
+    date: inv.date,
+  }));
+
   return (
     <div className="space-y-4">
       <PageHeader title="فواتير البيع">
@@ -119,55 +127,24 @@ export default function SalesPage() {
       </PageHeader>
 
       <div className="flex gap-4">
-        {/* Sidebar */}
-        <div className="w-64 shrink-0 space-y-2">
-          <Button onClick={addInvoice} variant="outline" className="w-full gap-2 mb-2">
-            <Plus className="w-4 h-4" /> فاتورة جديدة
-          </Button>
-          {invoices.map((inv, i) => (
-            <motion.button
-              key={inv.id}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.05 }}
-              onClick={() => setActiveId(inv.id)}
-              className={`w-full text-right p-3 rounded-xl border transition-all ${
-                inv.id === activeId
-                  ? 'bg-primary/10 border-primary/30 shadow-sm'
-                  : 'bg-card border-border hover:bg-muted/50'
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <div className={`p-1.5 rounded-lg ${inv.id === activeId ? 'gradient-primary' : 'bg-muted'}`}>
-                  <Receipt className={`w-3.5 h-3.5 ${inv.id === activeId ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-bold text-xs truncate">{inv.number}</p>
-                  <p className="text-[10px] text-muted-foreground truncate">{inv.customer}</p>
-                  <p className="text-[10px] text-muted-foreground">{inv.date}</p>
-                </div>
-              </div>
-            </motion.button>
-          ))}
-        </div>
+        <InvoiceSidebar
+          invoices={sidebarItems}
+          activeId={activeId}
+          onSelect={setActiveId}
+          onAdd={addInvoice}
+          icon="receipt"
+        />
 
-        {/* Main content */}
         <div className="flex-1 space-y-4 min-w-0">
-          <div className="bg-card rounded-xl border border-border p-4 shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg gradient-secondary"><Receipt className="w-4 h-4 text-secondary-foreground" /></div>
-              <div>
-                <h4 className="font-bold text-sm">فاتورة بيع #{activeInvoice.number}</h4>
-                <p className="text-xs text-muted-foreground">العميل: {activeInvoice.customer} • التاريخ: {activeInvoice.date}</p>
-              </div>
-            </div>
-          </div>
-
+          <InvoiceHeader
+            title={`فاتورة بيع #${activeInvoice.number}`}
+            subtitle={`العميل: ${activeInvoice.customer} • التاريخ: ${activeInvoice.date}`}
+            icon="receipt"
+          />
           <EditableTable data={activeInvoice.items} columns={columns} onCellChange={onCellChange} footer={footer} />
         </div>
       </div>
 
-      {/* Hidden print layout */}
       <div className="hidden print:block">
         <InvoicePrint
           ref={printRef}

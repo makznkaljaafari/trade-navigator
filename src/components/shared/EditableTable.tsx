@@ -95,7 +95,7 @@ export function EditableTable<T extends { id: string }>({
 
                   if (!editable) {
                     return (
-                      <td key={col.key} className={`spreadsheet-cell text-sm ${col.align === 'center' ? 'text-center' : ''} ${col.mono ? 'font-mono' : ''}`}>
+                      <td key={col.key} className={`spreadsheet-cell text-xs ${col.align === 'center' ? 'text-center' : ''} ${col.mono ? 'font-mono' : ''}`}>
                         {String(value ?? '')}
                       </td>
                     );
@@ -106,7 +106,7 @@ export function EditableTable<T extends { id: string }>({
                   return (
                     <td key={col.key} className="spreadsheet-cell">
                       <input
-                        className={`editable-table-input w-full bg-transparent focus:outline-none text-sm ${col.align === 'center' ? 'text-center' : ''} ${col.mono ? 'font-mono' : ''}`}
+                        className={`editable-table-input w-full bg-transparent focus:outline-none text-xs ${col.align === 'center' ? 'text-center' : ''} ${col.mono ? 'font-mono' : ''}`}
                         type={col.type === 'number' ? 'number' : 'text'}
                         value={col.type === 'number' ? (value as number || '') : String(value ?? '')}
                         onChange={e => {

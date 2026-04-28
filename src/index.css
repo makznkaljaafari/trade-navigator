@@ -160,26 +160,26 @@
 
   /* ===== Spreadsheet ===== */
   .spreadsheet-cell {
-    @apply border-r border-b border-border px-3 py-2 text-sm;
+    @apply border-r border-b border-border/60 px-2 py-1.5 text-xs;
     @apply focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/20 focus-within:bg-primary/5;
   }
 
   .spreadsheet-header {
-    @apply bg-muted/70 font-semibold text-xs uppercase tracking-wider text-muted-foreground;
-    @apply px-3 py-2.5 border-r border-b border-border select-none;
+    @apply bg-muted/70 font-semibold text-[10px] uppercase tracking-wider text-muted-foreground;
+    @apply px-2 py-1.5 border-r border-b border-border/60 select-none;
   }
 
   /* ===== Shadows ===== */
   .shadow-card {
     box-shadow:
-      0 1px 2px hsl(var(--foreground) / 0.03),
-      0 2px 8px hsl(var(--foreground) / 0.06);
+      0 1px 2px hsl(var(--foreground) / 0.02),
+      0 1px 4px hsl(var(--foreground) / 0.04);
   }
 
   .shadow-card-lg {
     box-shadow:
-      0 2px 4px hsl(var(--foreground) / 0.04),
-      0 8px 24px hsl(var(--foreground) / 0.08);
+      0 1px 3px hsl(var(--foreground) / 0.03),
+      0 4px 16px hsl(var(--foreground) / 0.06);
   }
 
   .shadow-colored-primary {
@@ -238,12 +238,12 @@
 /* ===== Mobile touch improvements ===== */
 @media (max-width: 1024px) {
   .spreadsheet-cell {
-    @apply px-2 py-2.5;
-    min-height: 44px;
+    @apply px-2 py-2;
+    min-height: 40px;
   }
 
   .spreadsheet-header {
-    @apply px-2 py-2;
+    @apply px-2 py-1.5;
   }
 
   .spreadsheet-cell input {

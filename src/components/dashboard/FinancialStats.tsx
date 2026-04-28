@@ -11,7 +11,7 @@ interface FinancialStatsProps {
 
 export function FinancialStats({ totalPurchases, totalSales, totalProfit, inventoryValue }: FinancialStatsProps) {
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3">
       <StatCard title="إجمالي المشتريات" value={`$${formatNumber(totalPurchases)}`} icon={ShoppingCart} variant="primary" delay={0.05} />
       <StatCard title="إجمالي المبيعات" value={`$${formatNumber(totalSales)}`} icon={DollarSign} variant="secondary" delay={0.1} />
       <StatCard title="صافي الربح" value={`$${formatNumber(totalProfit)}`} icon={TrendingUp} variant="accent" trend="+23% من الرحلة السابقة" trendUp delay={0.15} />

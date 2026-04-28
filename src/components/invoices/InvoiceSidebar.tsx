@@ -21,9 +21,9 @@ export function InvoiceSidebar({ invoices, activeId, onSelect, onAdd, icon = 'fi
   const Icon: LucideIcon = icon === 'receipt' ? Receipt : FileText;
 
   return (
-    <div className="w-64 shrink-0 space-y-2">
-      <Button onClick={onAdd} variant="outline" className="w-full gap-2 mb-2">
-        <Plus className="w-4 h-4" /> فاتورة جديدة
+    <div className="w-56 shrink-0 space-y-1.5">
+      <Button onClick={onAdd} variant="outline" size="sm" className="w-full gap-1.5 mb-1.5 h-8 text-xs">
+        <Plus className="w-3.5 h-3.5" /> فاتورة جديدة
       </Button>
       {invoices.map((inv, i) => {
         const isActive = inv.id === activeId;
@@ -34,18 +34,18 @@ export function InvoiceSidebar({ invoices, activeId, onSelect, onAdd, icon = 'fi
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: i * 0.05 }}
             onClick={() => onSelect(inv.id)}
-            className={`w-full text-right p-3 rounded-xl border transition-all ${
+            className={`w-full text-right p-2.5 rounded-lg border transition-all ${
               isActive
                 ? 'bg-primary/10 border-primary/30 shadow-sm'
-                : 'bg-card border-border hover:bg-muted/50'
+                : 'bg-card border-border/60 hover:bg-muted/50'
             }`}
           >
             <div className="flex items-center gap-2">
-              <div className={`p-1.5 rounded-lg ${isActive ? 'gradient-primary' : 'bg-muted'}`}>
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
+              <div className={`p-1.5 rounded-md ${isActive ? 'gradient-primary' : 'bg-muted'}`}>
+                <Icon className={`w-3 h-3 ${isActive ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-bold text-xs truncate">{inv.number}</p>
+                <p className="font-bold text-[11px] truncate">{inv.number}</p>
                 <p className="text-[10px] text-muted-foreground truncate">{inv.subtitle}</p>
                 <p className="text-[10px] text-muted-foreground">{inv.date}</p>
               </div>

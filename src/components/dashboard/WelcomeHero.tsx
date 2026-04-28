@@ -12,38 +12,38 @@ export function WelcomeHero({ profitMargin, productsCount, inTransitCount }: Wel
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="gradient-hero rounded-2xl p-5 lg:p-8 text-sidebar-foreground relative overflow-hidden"
+      className="gradient-hero rounded-xl p-4 lg:p-6 text-sidebar-foreground relative overflow-hidden"
     >
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-4 left-8 w-32 h-32 rounded-full bg-secondary blur-3xl" />
-        <div className="absolute bottom-0 right-16 w-40 h-40 rounded-full bg-primary blur-3xl" />
+        <div className="absolute top-4 left-8 w-28 h-28 rounded-full bg-secondary blur-3xl" />
+        <div className="absolute bottom-0 right-16 w-32 h-32 rounded-full bg-primary blur-3xl" />
       </div>
       <div className="relative z-10">
-        <p className="text-sidebar-foreground/50 text-sm font-medium mb-1">مرحباً بك 👋</p>
-        <h1 className="text-xl lg:text-2xl font-extrabold mb-1">نظام إدارة الاستيراد</h1>
-        <p className="text-sidebar-foreground/50 text-sm max-w-lg">
+        <p className="text-sidebar-foreground/50 text-xs font-medium mb-0.5">مرحباً بك 👋</p>
+        <h1 className="text-base lg:text-xl font-extrabold mb-0.5">نظام إدارة الاستيراد</h1>
+        <p className="text-sidebar-foreground/50 text-xs max-w-lg">
           تتبع رحلاتك ومشترياتك وشحناتك ومبيعاتك في مكان واحد
         </p>
-        <div className="flex flex-wrap gap-3 mt-4">
-          <div className="flex items-center gap-2 bg-sidebar-foreground/10 rounded-xl px-3 py-2">
-            <Activity className="w-4 h-4 text-secondary" />
+        <div className="flex flex-wrap gap-2 mt-3">
+          <div className="flex items-center gap-1.5 bg-sidebar-foreground/10 rounded-lg px-2.5 py-1.5">
+            <Activity className="w-3.5 h-3.5 text-secondary" />
             <div>
-              <p className="text-[10px] text-sidebar-foreground/50">هامش الربح</p>
-              <p className="text-sm font-bold">{profitMargin}%</p>
+              <p className="text-[9px] text-sidebar-foreground/50 leading-tight">هامش الربح</p>
+              <p className="text-xs font-bold leading-tight">{profitMargin}%</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 bg-sidebar-foreground/10 rounded-xl px-3 py-2">
-            <BarChart3 className="w-4 h-4 text-accent" />
+          <div className="flex items-center gap-1.5 bg-sidebar-foreground/10 rounded-lg px-2.5 py-1.5">
+            <BarChart3 className="w-3.5 h-3.5 text-accent" />
             <div>
-              <p className="text-[10px] text-sidebar-foreground/50">المنتجات النشطة</p>
-              <p className="text-sm font-bold">{productsCount}</p>
+              <p className="text-[9px] text-sidebar-foreground/50 leading-tight">المنتجات النشطة</p>
+              <p className="text-xs font-bold leading-tight">{productsCount}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 bg-sidebar-foreground/10 rounded-xl px-3 py-2">
-            <Ship className="w-4 h-4 text-info" />
+          <div className="flex items-center gap-1.5 bg-sidebar-foreground/10 rounded-lg px-2.5 py-1.5">
+            <Ship className="w-3.5 h-3.5 text-info" />
             <div>
-              <p className="text-[10px] text-sidebar-foreground/50">شحنات في الطريق</p>
-              <p className="text-sm font-bold">{inTransitCount}</p>
+              <p className="text-[9px] text-sidebar-foreground/50 leading-tight">شحنات في الطريق</p>
+              <p className="text-xs font-bold leading-tight">{inTransitCount}</p>
             </div>
           </div>
         </div>

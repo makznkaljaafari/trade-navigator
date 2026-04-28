@@ -35,7 +35,7 @@ export default function Dashboard() {
   }));
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <WelcomeHero profitMargin={profitMargin} productsCount={inventory.length} inTransitCount={inTransitCount} />
       <FinancialStats totalPurchases={totalPurchases} totalSales={totalSales} totalProfit={totalProfit} inventoryValue={inventoryValue} />
       <ChartsSection barChartData={barChartData} expensesByCategory={expensesByCategory} />

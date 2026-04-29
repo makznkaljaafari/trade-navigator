@@ -145,7 +145,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateProductField: async (id, field, value) => {
     const map: Record<string, string> = { quantity: 'quantity_purchased' };
     const dbField = map[field] || field;
-    const { data } = await supabase.from('products').update({ [dbField]: value }).eq('id', id).select().single();
+    const updatePayload: any = { [dbField]: value };
+    const { data } = await supabase.from('products').update(updatePayload).eq('id', id).select().single();
     if (data) {
       const p: any = { ...data, quantity: data.quantity_purchased - data.quantity_sold, purchase_price: Number(data.purchase_price), sale_price: Number(data.sale_price) };
       set(s => ({

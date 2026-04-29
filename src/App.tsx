@@ -7,9 +7,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppLayout from "@/components/layout/AppLayout";
 import { ErrorBoundary, LoadingSkeleton } from "@/components/shared";
 import { OnboardingDialog } from "@/components/shared/OnboardingDialog";
+import { AuthProvider } from "@/hooks/useAuth";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
+import AuthPage from "./pages/AuthPage";
 
-// Lazy loaded pages
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const TripsPage = lazy(() => import("./pages/TripsPage"));
 const SuppliersPage = lazy(() => import("./pages/SuppliersPage"));
@@ -23,7 +25,9 @@ const ExpensesPage = lazy(() => import("./pages/ExpensesPage"));
 const CurrencyPage = lazy(() => import("./pages/CurrencyPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { staleTime: 30_000, refetchOnWindowFocus: false } },
+});
 
 function PageLoader() {
   return <LoadingSkeleton rows={4} type="cards" />;
@@ -35,28 +39,40 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <OnboardingDialog />
-        <AppLayout>
-          <ErrorBoundary>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/trips" element={<TripsPage />} />
-                <Route path="/suppliers" element={<SuppliersPage />} />
-                <Route path="/products" element={<ProductsPage />} />
-                <Route path="/quotations" element={<QuotationsPage />} />
-                <Route path="/purchases" element={<PurchasesPage />} />
-                <Route path="/shipping" element={<ShippingPage />} />
-                <Route path="/inventory" element={<InventoryPage />} />
-                <Route path="/sales" element={<SalesPage />} />
-                <Route path="/expenses" element={<ExpensesPage />} />
-                <Route path="/currency" element={<CurrencyPage />} />
-                <Route path="/settings" element={<SettingsPage />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </ErrorBoundary>
-        </AppLayout>
+        <AuthProvider>
+          <Routes>
+            <Route path="/auth" element={<AuthPage />} />
+            <Route
+              path="/*"
+              element={
+                <ProtectedRoute>
+                  <OnboardingDialog />
+                  <AppLayout>
+                    <ErrorBoundary>
+                      <Suspense fallback={<PageLoader />}>
+                        <Routes>
+                          <Route path="/" element={<Dashboard />} />
+                          <Route path="/trips" element={<TripsPage />} />
+                          <Route path="/suppliers" element={<SuppliersPage />} />
+                          <Route path="/products" element={<ProductsPage />} />
+                          <Route path="/quotations" element={<QuotationsPage />} />
+                          <Route path="/purchases" element={<PurchasesPage />} />
+                          <Route path="/shipping" element={<ShippingPage />} />
+                          <Route path="/inventory" element={<InventoryPage />} />
+                          <Route path="/sales" element={<SalesPage />} />
+                          <Route path="/expenses" element={<ExpensesPage />} />
+                          <Route path="/currency" element={<CurrencyPage />} />
+                          <Route path="/settings" element={<SettingsPage />} />
+                          <Route path="*" element={<NotFound />} />
+                        </Routes>
+                      </Suspense>
+                    </ErrorBoundary>
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

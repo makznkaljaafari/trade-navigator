@@ -14,7 +14,750 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      customers: {
+        Row: {
+          balance: number
+          category: string | null
+          city: string | null
+          created_at: string
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          category?: string | null
+          city?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          category?: string | null
+          city?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      expenses: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          currency: string
+          date: string
+          id: string
+          notes: string | null
+          trip_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          category?: string
+          created_at?: string
+          currency?: string
+          date?: string
+          id?: string
+          notes?: string | null
+          trip_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          currency?: string
+          date?: string
+          id?: string
+          notes?: string | null
+          trip_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory_movements: {
+        Row: {
+          created_at: string
+          id: string
+          movement_type: string
+          notes: string | null
+          product_id: string | null
+          quantity: number
+          reference_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          movement_type: string
+          notes?: string | null
+          product_id?: string | null
+          quantity: number
+          reference_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          movement_type?: string
+          notes?: string | null
+          product_id?: string | null
+          quantity?: number
+          reference_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_movements_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          brand: string | null
+          category: string | null
+          created_at: string
+          id: string
+          image_url: string | null
+          min_stock: number
+          name: string
+          notes: string | null
+          oem_number: string | null
+          purchase_price: number
+          quantity_purchased: number
+          quantity_sold: number
+          rating: number | null
+          sale_price: number
+          size: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          brand?: string | null
+          category?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          min_stock?: number
+          name: string
+          notes?: string | null
+          oem_number?: string | null
+          purchase_price?: number
+          quantity_purchased?: number
+          quantity_sold?: number
+          rating?: number | null
+          sale_price?: number
+          size?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          brand?: string | null
+          category?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          min_stock?: number
+          name?: string
+          notes?: string | null
+          oem_number?: string | null
+          purchase_price?: number
+          quantity_purchased?: number
+          quantity_sold?: number
+          rating?: number | null
+          sale_price?: number
+          size?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          company_name: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          company_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          company_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      purchase_invoices: {
+        Row: {
+          created_at: string
+          currency: string
+          date: string
+          id: string
+          invoice_number: string | null
+          notes: string | null
+          paid_amount: number
+          supplier_id: string | null
+          trip_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          date?: string
+          id?: string
+          invoice_number?: string | null
+          notes?: string | null
+          paid_amount?: number
+          supplier_id?: string | null
+          trip_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          date?: string
+          id?: string
+          invoice_number?: string | null
+          notes?: string | null
+          paid_amount?: number
+          supplier_id?: string | null
+          trip_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchase_invoices_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchase_invoices_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      purchase_items: {
+        Row: {
+          brand: string | null
+          id: string
+          invoice_id: string
+          notes: string | null
+          oem_number: string | null
+          product_id: string | null
+          product_name: string
+          purchase_price: number
+          quantity: number
+          sale_price: number
+          size: string | null
+          user_id: string
+        }
+        Insert: {
+          brand?: string | null
+          id?: string
+          invoice_id: string
+          notes?: string | null
+          oem_number?: string | null
+          product_id?: string | null
+          product_name: string
+          purchase_price?: number
+          quantity?: number
+          sale_price?: number
+          size?: string | null
+          user_id: string
+        }
+        Update: {
+          brand?: string | null
+          id?: string
+          invoice_id?: string
+          notes?: string | null
+          oem_number?: string | null
+          product_id?: string | null
+          product_name?: string
+          purchase_price?: number
+          quantity?: number
+          sale_price?: number
+          size?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchase_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "purchase_invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchase_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quotation_items: {
+        Row: {
+          brand: string | null
+          id: string
+          notes: string | null
+          oem_number: string | null
+          product_name: string
+          purchase_price: number
+          quantity: number
+          quotation_id: string
+          size: string | null
+          user_id: string
+        }
+        Insert: {
+          brand?: string | null
+          id?: string
+          notes?: string | null
+          oem_number?: string | null
+          product_name: string
+          purchase_price?: number
+          quantity?: number
+          quotation_id: string
+          size?: string | null
+          user_id: string
+        }
+        Update: {
+          brand?: string | null
+          id?: string
+          notes?: string | null
+          oem_number?: string | null
+          product_name?: string
+          purchase_price?: number
+          quantity?: number
+          quotation_id?: string
+          size?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotation_items_quotation_id_fkey"
+            columns: ["quotation_id"]
+            isOneToOne: false
+            referencedRelation: "quotations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quotations: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          notes: string | null
+          supplier_id: string | null
+          trip_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          id?: string
+          notes?: string | null
+          supplier_id?: string | null
+          trip_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          notes?: string | null
+          supplier_id?: string | null
+          trip_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotations_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quotations_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sales_invoices: {
+        Row: {
+          created_at: string
+          currency: string
+          customer_id: string | null
+          customer_name: string | null
+          date: string
+          id: string
+          invoice_number: string | null
+          notes: string | null
+          paid_amount: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          customer_name?: string | null
+          date?: string
+          id?: string
+          invoice_number?: string | null
+          notes?: string | null
+          paid_amount?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          customer_id?: string | null
+          customer_name?: string | null
+          date?: string
+          id?: string
+          invoice_number?: string | null
+          notes?: string | null
+          paid_amount?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sales_invoices_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sales_items: {
+        Row: {
+          brand: string | null
+          id: string
+          invoice_id: string
+          notes: string | null
+          oem_number: string | null
+          product_id: string | null
+          product_name: string
+          quantity: number
+          sale_price: number
+          size: string | null
+          user_id: string
+        }
+        Insert: {
+          brand?: string | null
+          id?: string
+          invoice_id: string
+          notes?: string | null
+          oem_number?: string | null
+          product_id?: string | null
+          product_name: string
+          quantity?: number
+          sale_price?: number
+          size?: string | null
+          user_id: string
+        }
+        Update: {
+          brand?: string | null
+          id?: string
+          invoice_id?: string
+          notes?: string | null
+          oem_number?: string | null
+          product_id?: string | null
+          product_name?: string
+          quantity?: number
+          sale_price?: number
+          size?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sales_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "sales_invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      settings: {
+        Row: {
+          company_address: string | null
+          company_email: string | null
+          company_logo_url: string | null
+          company_name: string | null
+          company_phone: string | null
+          default_currency: string
+          low_stock_threshold: number
+          rate_cny_sar: number
+          rate_cny_usd: number
+          rate_usd_sar: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_address?: string | null
+          company_email?: string | null
+          company_logo_url?: string | null
+          company_name?: string | null
+          company_phone?: string | null
+          default_currency?: string
+          low_stock_threshold?: number
+          rate_cny_sar?: number
+          rate_cny_usd?: number
+          rate_usd_sar?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_address?: string | null
+          company_email?: string | null
+          company_logo_url?: string | null
+          company_name?: string | null
+          company_phone?: string | null
+          default_currency?: string
+          low_stock_threshold?: number
+          rate_cny_sar?: number
+          rate_cny_usd?: number
+          rate_usd_sar?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      shipments: {
+        Row: {
+          arrival_port: string | null
+          cartons_count: number
+          created_at: string
+          departure_port: string | null
+          expected_arrival_date: string | null
+          id: string
+          notes: string | null
+          purchase_invoice_id: string | null
+          ship_date: string | null
+          shipment_number: string
+          shipping_company: string | null
+          shipping_cost: number
+          shipping_type: string
+          status: string
+          updated_at: string
+          user_id: string
+          weight: number
+        }
+        Insert: {
+          arrival_port?: string | null
+          cartons_count?: number
+          created_at?: string
+          departure_port?: string | null
+          expected_arrival_date?: string | null
+          id?: string
+          notes?: string | null
+          purchase_invoice_id?: string | null
+          ship_date?: string | null
+          shipment_number: string
+          shipping_company?: string | null
+          shipping_cost?: number
+          shipping_type?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          weight?: number
+        }
+        Update: {
+          arrival_port?: string | null
+          cartons_count?: number
+          created_at?: string
+          departure_port?: string | null
+          expected_arrival_date?: string | null
+          id?: string
+          notes?: string | null
+          purchase_invoice_id?: string | null
+          ship_date?: string | null
+          shipment_number?: string
+          shipping_company?: string | null
+          shipping_cost?: number
+          shipping_type?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          weight?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipments_purchase_invoice_id_fkey"
+            columns: ["purchase_invoice_id"]
+            isOneToOne: false
+            referencedRelation: "purchase_invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      suppliers: {
+        Row: {
+          city: string | null
+          company_name: string | null
+          created_at: string
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          product_category: string | null
+          rating: number | null
+          trip_id: string | null
+          updated_at: string
+          user_id: string
+          wechat_or_whatsapp: string | null
+        }
+        Insert: {
+          city?: string | null
+          company_name?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          product_category?: string | null
+          rating?: number | null
+          trip_id?: string | null
+          updated_at?: string
+          user_id: string
+          wechat_or_whatsapp?: string | null
+        }
+        Update: {
+          city?: string | null
+          company_name?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          product_category?: string | null
+          rating?: number | null
+          trip_id?: string | null
+          updated_at?: string
+          user_id?: string
+          wechat_or_whatsapp?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "suppliers_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trips: {
+        Row: {
+          city: string | null
+          country: string | null
+          created_at: string
+          end_date: string | null
+          id: string
+          name: string
+          notes: string | null
+          start_date: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          start_date?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

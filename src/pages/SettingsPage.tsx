@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Save, Building2, RefreshCw, Palette } from 'lucide-react';
+import { Save, Building2, RefreshCw, Palette, Moon, Sun } from 'lucide-react';
 import { PageHeader } from '@/components/shared';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,37 +8,48 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { useThemeStore } from '@/store/useThemeStore';
+import { useAppStore } from '@/store/useAppStore';
 import { Switch } from '@/components/ui/switch';
-import { Moon, Sun } from 'lucide-react';
 
 export default function SettingsPage() {
   const { toast } = useToast();
   const { isDark, toggle } = useThemeStore();
+  const { settings, saveSettings } = useAppStore();
 
   const [company, setCompany] = useState({
-    name: 'AutoParts',
-    owner: 'مدير النظام',
-    phone: '+966 50 000 0000',
-    email: 'info@autoparts.sa',
-    address: 'الرياض، المملكة العربية السعودية',
-    taxNumber: '300000000000003',
-    logo: '',
+    company_name: '', company_phone: '', company_email: '', company_address: '',
   });
-
   const [rates, setRates] = useState({
-    CNY_USD: '0.14',
-    CNY_SAR: '0.52',
-    USD_CNY: '7.15',
-    USD_SAR: '3.75',
-    SAR_CNY: '1.91',
-    SAR_USD: '0.27',
+    rate_cny_usd: '0.14', rate_cny_sar: '0.52', rate_usd_sar: '3.75',
   });
 
-  const saveCompany = () => {
+  useEffect(() => {
+    if (settings) {
+      setCompany({
+        company_name: settings.company_name || '',
+        company_phone: settings.company_phone || '',
+        company_email: settings.company_email || '',
+        company_address: settings.company_address || '',
+      });
+      setRates({
+        rate_cny_usd: String(settings.rate_cny_usd),
+        rate_cny_sar: String(settings.rate_cny_sar),
+        rate_usd_sar: String(settings.rate_usd_sar),
+      });
+    }
+  }, [settings]);
+
+  const saveCompany = async () => {
+    await saveSettings(company);
     toast({ title: 'تم الحفظ', description: 'تم حفظ معلومات الشركة بنجاح' });
   };
 
-  const saveRates = () => {
+  const saveRates = async () => {
+    await saveSettings({
+      rate_cny_usd: Number(rates.rate_cny_usd),
+      rate_cny_sar: Number(rates.rate_cny_sar),
+      rate_usd_sar: Number(rates.rate_usd_sar),
+    });
     toast({ title: 'تم الحفظ', description: 'تم تحديث أسعار الصرف بنجاح' });
   };
 
@@ -53,26 +64,25 @@ export default function SettingsPage() {
           <TabsTrigger value="appearance" className="gap-2"><Palette className="w-4 h-4" /> المظهر</TabsTrigger>
         </TabsList>
 
-        {/* Company Info */}
         <TabsContent value="company">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-2xl border border-border p-6 space-y-5 max-w-2xl">
             <h3 className="font-bold text-lg">معلومات الشركة</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {([
-                ['name', 'اسم الشركة'],
-                ['owner', 'المالك / المدير'],
-                ['phone', 'رقم الهاتف'],
-                ['email', 'البريد الإلكتروني'],
-                ['taxNumber', 'الرقم الضريبي'],
-              ] as const).map(([key, label]) => (
-                <div key={key} className="space-y-1.5">
-                  <Label className="text-xs font-semibold text-muted-foreground">{label}</Label>
-                  <Input value={company[key]} onChange={e => setCompany({ ...company, [key]: e.target.value })} />
-                </div>
-              ))}
+              <div className="space-y-1.5">
+                <Label className="text-xs font-semibold text-muted-foreground">اسم الشركة</Label>
+                <Input value={company.company_name} onChange={e => setCompany({ ...company, company_name: e.target.value })} />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-semibold text-muted-foreground">رقم الهاتف</Label>
+                <Input value={company.company_phone} onChange={e => setCompany({ ...company, company_phone: e.target.value })} />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-semibold text-muted-foreground">البريد الإلكتروني</Label>
+                <Input value={company.company_email} onChange={e => setCompany({ ...company, company_email: e.target.value })} />
+              </div>
               <div className="sm:col-span-2 space-y-1.5">
                 <Label className="text-xs font-semibold text-muted-foreground">العنوان</Label>
-                <Input value={company.address} onChange={e => setCompany({ ...company, address: e.target.value })} />
+                <Input value={company.company_address} onChange={e => setCompany({ ...company, company_address: e.target.value })} />
               </div>
             </div>
             <Button onClick={saveCompany} className="gradient-primary text-primary-foreground gap-2">
@@ -81,25 +91,23 @@ export default function SettingsPage() {
           </motion.div>
         </TabsContent>
 
-        {/* Currency Rates */}
         <TabsContent value="currency">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-2xl border border-border p-6 space-y-5 max-w-2xl">
             <h3 className="font-bold text-lg">أسعار الصرف</h3>
-            <p className="text-xs text-muted-foreground">أدخل أسعار الصرف المستخدمة في حسابات النظام</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {([
-                ['CNY_USD', 'يوان → دولار'],
-                ['CNY_SAR', 'يوان → ريال'],
-                ['USD_CNY', 'دولار → يوان'],
-                ['USD_SAR', 'دولار → ريال'],
-                ['SAR_CNY', 'ريال → يوان'],
-                ['SAR_USD', 'ريال → دولار'],
-              ] as const).map(([key, label]) => (
-                <div key={key} className="space-y-1.5">
-                  <Label className="text-xs font-semibold text-muted-foreground">{label}</Label>
-                  <Input type="number" step="0.01" value={rates[key]} onChange={e => setRates({ ...rates, [key]: e.target.value })} className="font-mono" />
-                </div>
-              ))}
+            <p className="text-xs text-muted-foreground">أدخل أسعار الصرف الأساسية المستخدمة في حسابات النظام</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="space-y-1.5">
+                <Label className="text-xs font-semibold text-muted-foreground">يوان → دولار</Label>
+                <Input type="number" step="0.0001" value={rates.rate_cny_usd} onChange={e => setRates({ ...rates, rate_cny_usd: e.target.value })} className="font-mono" />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-semibold text-muted-foreground">يوان → ريال</Label>
+                <Input type="number" step="0.0001" value={rates.rate_cny_sar} onChange={e => setRates({ ...rates, rate_cny_sar: e.target.value })} className="font-mono" />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-semibold text-muted-foreground">دولار → ريال</Label>
+                <Input type="number" step="0.0001" value={rates.rate_usd_sar} onChange={e => setRates({ ...rates, rate_usd_sar: e.target.value })} className="font-mono" />
+              </div>
             </div>
             <Button onClick={saveRates} className="gradient-primary text-primary-foreground gap-2">
               <Save className="w-4 h-4" /> حفظ الأسعار
@@ -107,7 +115,6 @@ export default function SettingsPage() {
           </motion.div>
         </TabsContent>
 
-        {/* Appearance */}
         <TabsContent value="appearance">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-2xl border border-border p-6 space-y-5 max-w-md">
             <h3 className="font-bold text-lg">المظهر</h3>

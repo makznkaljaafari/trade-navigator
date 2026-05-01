@@ -54,7 +54,7 @@ export default function ExpensesPage() {
       updateExpense(editingExpense.id, result.data);
       toast({ title: 'تم التحديث', description: 'تم تحديث المصروف بنجاح' });
     } else {
-      addExpense({ trip_id: '1', ...result.data } as Omit<Expense, 'id'>);
+      addExpense({ trip_id: '', ...result.data } as Omit<Expense, 'id'>);
       toast({ title: 'تمت الإضافة', description: 'تم إضافة المصروف بنجاح' });
     }
     

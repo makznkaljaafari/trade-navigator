@@ -24,6 +24,7 @@ const SalesPage = lazy(() => import("./pages/SalesPage"));
 const ExpensesPage = lazy(() => import("./pages/ExpensesPage"));
 const CurrencyPage = lazy(() => import("./pages/CurrencyPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const CustomersPage = lazy(() => import("./pages/CustomersPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, refetchOnWindowFocus: false } },
@@ -60,6 +61,7 @@ const App = () => (
                           <Route path="/shipping" element={<ShippingPage />} />
                           <Route path="/inventory" element={<InventoryPage />} />
                           <Route path="/sales" element={<SalesPage />} />
+                          <Route path="/customers" element={<CustomersPage />} />
                           <Route path="/expenses" element={<ExpensesPage />} />
                           <Route path="/currency" element={<CurrencyPage />} />
                           <Route path="/settings" element={<SettingsPage />} />

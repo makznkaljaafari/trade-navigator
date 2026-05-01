@@ -95,7 +95,7 @@ export default function PurchasesPage() {
       {purchaseInvoices.length === 0 ? (
         <EmptyState
           message="لا توجد فواتير شراء بعد"
-          action={{ label: 'إنشاء أول فاتورة', onClick: addInvoice }}
+          action={<Button onClick={addInvoice} className="gradient-primary text-primary-foreground gap-2"><Plus className="w-4 h-4"/>إنشاء أول فاتورة</Button>}
         />
       ) : (
         <div className="flex gap-4">

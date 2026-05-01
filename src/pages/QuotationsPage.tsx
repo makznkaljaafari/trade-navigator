@@ -1,142 +1,136 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { PageHeader } from '@/components/shared';
+import { Plus, ArrowLeftRight, Star, Trash2 } from 'lucide-react';
+import { PageHeader, EmptyState, EditableTable, SelectField } from '@/components/shared';
+import type { ColumnDef } from '@/components/shared';
 import { Button } from '@/components/ui/button';
-import { FileText, ArrowLeftRight, Star } from 'lucide-react';
-
-const mockQuotations = [
-  {
-    id: '1', supplier_name: 'وانغ لي - Guangzhou Auto Parts', date: '2025-01-12',
-    items: [
-      { product: 'فلتر زيت تويوتا', oem: '04152-YZZA1', qty: 500, price: 8 },
-      { product: 'فلتر هواء كامري', oem: '17801-0H050', qty: 300, price: 12 },
-      { product: 'تيل فرامل أمامي', oem: '04465-33471', qty: 200, price: 18 },
-    ],
-  },
-  {
-    id: '2', supplier_name: 'ليو هوا - Shanghai Brake Systems', date: '2025-01-14',
-    items: [
-      { product: 'فلتر زيت تويوتا', oem: '04152-YZZA1', qty: 500, price: 9.5 },
-      { product: 'فلتر هواء كامري', oem: '17801-0H050', qty: 300, price: 11 },
-      { product: 'تيل فرامل أمامي', oem: '04465-33471', qty: 200, price: 19 },
-    ],
-  },
-];
+import { useAppStore, type QuotationItem } from '@/store/useAppStore';
+import { toast } from '@/hooks/use-toast';
 
 export default function QuotationsPage() {
+  const { quotations, suppliers, addQuotation, addQuotationItem, updateQuotationItem, deleteQuotationItem, deleteQuotation, updateQuotation } = useAppStore();
   const [comparing, setComparing] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
 
-  // Calculate supplier totals
-  const supplierTotals = mockQuotations.map(q =>
-    q.items.reduce((s, it) => s + it.qty * it.price, 0)
-  );
+  useEffect(() => { if (!activeId && quotations.length > 0) setActiveId(quotations[0].id); }, [quotations, activeId]);
+
+  const active = quotations.find(q => q.id === activeId);
+  const supplierName = (id: string | null) => suppliers.find(s => s.id === id)?.name || 'غير محدد';
+
+  const addQ = async () => {
+    const id = await addQuotation({});
+    if (id) { setActiveId(id); toast({ title: 'تم إنشاء عرض جديد' }); }
+  };
+
+  const addRow = async () => {
+    if (!activeId) return;
+    await addQuotationItem(activeId, { product_name: '', quantity: 0, purchase_price: 0 });
+  };
+
+  const supplierOptions = suppliers.map(s => ({ value: s.id, label: `${s.name} - ${s.company_name}` }));
+
+  const columns: ColumnDef<QuotationItem>[] = [
+    { key: 'product_name', header: 'المنتج', minWidth: '140px' },
+    { key: 'oem_number', header: 'OEM', minWidth: '110px', mono: true },
+    { key: 'brand', header: 'العلامة', minWidth: '80px' },
+    { key: 'quantity', header: 'الكمية', minWidth: '60px', type: 'number', align: 'center' },
+    { key: 'purchase_price', header: 'السعر', minWidth: '80px', type: 'number', align: 'center' },
+    { key: 'size', header: 'المقاس', minWidth: '70px' },
+    { key: 'total', header: 'الإجمالي', editable: false, align: 'center', render: (row) => <span className="font-semibold">¥{(row.quantity * row.purchase_price).toLocaleString()}</span> },
+  ];
+
+  // Compare mode: pivot by product_name across quotations
+  const allProducts = Array.from(new Set(quotations.flatMap(q => (q.items || []).map(it => it.product_name)).filter(Boolean)));
 
   return (
     <div className="space-y-4">
-      <PageHeader title="عروض الأسعار">
-        <Button onClick={() => setComparing(!comparing)} variant={comparing ? 'default' : 'outline'} className="gap-2">
-          <ArrowLeftRight className="w-4 h-4" /> {comparing ? 'إنهاء المقارنة' : 'مقارنة العروض'}
-        </Button>
+      <PageHeader title="عروض الأسعار" subtitle={`${quotations.length} عرض`}>
+        <div className="flex gap-2">
+          <Button onClick={() => setComparing(!comparing)} variant={comparing ? 'default' : 'outline'} className="gap-2">
+            <ArrowLeftRight className="w-4 h-4" /> {comparing ? 'إنهاء المقارنة' : 'مقارنة'}
+          </Button>
+          <Button onClick={addQ} className="gradient-primary text-primary-foreground gap-2">
+            <Plus className="w-4 h-4" /> عرض جديد
+          </Button>
+        </div>
       </PageHeader>
 
-      {comparing ? (
+      {quotations.length === 0 ? (
+        <EmptyState message="لا توجد عروض أسعار بعد" action={<Button onClick={addQ} className="gradient-primary text-primary-foreground gap-2"><Plus className="w-4 h-4" />إنشاء أول عرض</Button>} />
+      ) : comparing && allProducts.length > 0 ? (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-card rounded-xl border border-border shadow-sm overflow-x-auto">
           <table className="w-full min-w-[700px]">
             <thead>
               <tr>
                 <th className="spreadsheet-header">المنتج</th>
-                <th className="spreadsheet-header">OEM</th>
-                <th className="spreadsheet-header text-center">الكمية</th>
-                {mockQuotations.map(q => (
-                  <th key={q.id} className="spreadsheet-header text-center">{q.supplier_name.split(' - ')[0]}</th>
+                {quotations.map(q => (
+                  <th key={q.id} className="spreadsheet-header text-center">{supplierName(q.supplier_id).split(' ')[0]}</th>
                 ))}
-                <th className="spreadsheet-header text-center">الفرق</th>
               </tr>
             </thead>
             <tbody>
-              {mockQuotations[0].items.map((item, i) => {
-                const prices = mockQuotations.map(q => q.items[i]?.price || 0);
-                const minPrice = Math.min(...prices);
-                const maxPrice = Math.max(...prices);
-                const diff = maxPrice - minPrice;
-                const diffPct = minPrice > 0 ? ((diff / minPrice) * 100).toFixed(1) : '0';
-
+              {allProducts.map(product => {
+                const prices = quotations.map(q => q.items?.find(it => it.product_name === product)?.purchase_price || 0);
+                const valid = prices.filter(p => p > 0);
+                const minPrice = valid.length ? Math.min(...valid) : 0;
                 return (
-                  <tr key={i} className="hover:bg-muted/30">
-                    <td className="spreadsheet-cell text-sm font-medium">{item.product}</td>
-                    <td className="spreadsheet-cell text-sm font-mono">{item.oem}</td>
-                    <td className="spreadsheet-cell text-center text-sm">{item.qty}</td>
+                  <tr key={product} className="hover:bg-muted/30">
+                    <td className="spreadsheet-cell text-sm font-medium">{product}</td>
                     {prices.map((p, j) => {
-                      const isBest = p === minPrice && minPrice !== maxPrice;
-                      const isWorst = p === maxPrice && minPrice !== maxPrice;
+                      const isBest = p === minPrice && p > 0 && valid.length > 1;
                       return (
-                        <td key={j} className={`spreadsheet-cell text-center text-sm font-bold ${
-                          isBest ? 'bg-accent/15 text-accent' : isWorst ? 'bg-destructive/10 text-destructive' : ''
-                        }`}>
-                          <span className="inline-flex items-center gap-1">
-                            {isBest && <Star className="w-3 h-3 fill-current" />}
-                            ¥{p}
-                          </span>
+                        <td key={j} className={`spreadsheet-cell text-center text-sm font-bold ${isBest ? 'bg-accent/15 text-accent' : ''}`}>
+                          {p > 0 ? <span className="inline-flex items-center gap-1">{isBest && <Star className="w-3 h-3 fill-current" />}¥{p}</span> : '—'}
                         </td>
                       );
                     })}
-                    <td className="spreadsheet-cell text-center text-sm">
-                      <span className="text-destructive font-semibold">¥{diff.toFixed(1)}</span>
-                      <span className="text-muted-foreground text-xs mr-1">({diffPct}%)</span>
-                    </td>
                   </tr>
                 );
               })}
-              {/* Totals row */}
-              <tr className="bg-muted/50 font-bold border-t-2 border-border">
-                <td colSpan={3} className="spreadsheet-cell text-sm">الإجمالي</td>
-                {supplierTotals.map((total, j) => {
-                  const minTotal = Math.min(...supplierTotals);
-                  const isBest = total === minTotal && supplierTotals.length > 1;
-                  return (
-                    <td key={j} className={`spreadsheet-cell text-center text-sm ${isBest ? 'text-accent' : ''}`}>
-                      <span className="inline-flex items-center gap-1">
-                        {isBest && <Star className="w-3 h-3 fill-current" />}
-                        ¥{total.toLocaleString()}
-                      </span>
-                    </td>
-                  );
-                })}
-                <td className="spreadsheet-cell text-center text-sm text-destructive">
-                  ¥{(Math.max(...supplierTotals) - Math.min(...supplierTotals)).toLocaleString()}
-                </td>
-              </tr>
             </tbody>
           </table>
         </motion.div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {mockQuotations.map((q, i) => (
-            <motion.div key={q.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="bg-card rounded-xl border border-border p-4 shadow-sm">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 rounded-lg gradient-primary"><FileText className="w-4 h-4 text-primary-foreground" /></div>
-                <div>
-                  <h4 className="font-bold text-sm">{q.supplier_name}</h4>
-                  <p className="text-xs text-muted-foreground">{q.date}</p>
+        <div className="grid gap-4 lg:grid-cols-[260px_1fr]">
+          <div className="space-y-2">
+            {quotations.map(q => (
+              <button key={q.id} onClick={() => setActiveId(q.id)}
+                className={`w-full text-right p-3 rounded-xl border transition ${activeId === q.id ? 'border-primary bg-primary/5' : 'border-border bg-card hover:bg-muted/30'}`}>
+                <p className="text-sm font-bold truncate">{supplierName(q.supplier_id)}</p>
+                <p className="text-xs text-muted-foreground">{q.date}</p>
+              </button>
+            ))}
+          </div>
+
+          {active && (
+            <div className="space-y-3">
+              <div className="bg-card rounded-xl border border-border p-4 flex items-center justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <SelectField
+                    label="المورد"
+                    value={active.supplier_id || ''}
+                    onChange={v => updateQuotation(active.id, { supplier_id: v })}
+                    options={[{ value: '', label: '— غير محدد —' }, ...supplierOptions]}
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button onClick={addRow} size="sm" className="gradient-primary text-primary-foreground gap-1">
+                    <Plus className="w-3.5 h-3.5" /> صف
+                  </Button>
+                  <Button onClick={() => { if (confirm('حذف العرض؟')) { deleteQuotation(active.id); setActiveId(null); } }}
+                    variant="outline" size="sm" className="text-destructive">
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </Button>
                 </div>
               </div>
-              <div className="space-y-2">
-                {q.items.map((item, j) => (
-                  <div key={j} className="flex justify-between items-center p-2 bg-muted/50 rounded-lg text-sm">
-                    <div>
-                      <p className="font-medium">{item.product}</p>
-                      <p className="text-xs text-muted-foreground">{item.qty} قطعة</p>
-                    </div>
-                    <span className="font-bold">¥{item.price}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-3 pt-3 border-t border-border text-sm font-bold flex justify-between">
-                <span>الإجمالي:</span>
-                <span>¥{q.items.reduce((s, it) => s + it.qty * it.price, 0).toLocaleString()}</span>
-              </div>
-            </motion.div>
-          ))}
+              <EditableTable
+                data={active.items || []}
+                columns={columns}
+                onCellChange={(id, field, value) => updateQuotationItem(id as string, field, value)}
+                onDeleteRow={(id) => deleteQuotationItem(id as string)}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>

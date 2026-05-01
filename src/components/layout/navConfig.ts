@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Plane, Users, Package, FileText, Ship,
-  Warehouse, ShoppingCart, Receipt, DollarSign, Settings, RefreshCw
+  Warehouse, ShoppingCart, Receipt, DollarSign, Settings, RefreshCw, UserCircle
 } from 'lucide-react';
 
 export const navGroups = [
@@ -30,6 +30,7 @@ export const navGroups = [
   {
     label: 'المبيعات والمالية',
     items: [
+      { path: '/customers', label: 'العملاء', icon: UserCircle },
       { path: '/sales', label: 'فواتير البيع', icon: Receipt },
       { path: '/expenses', label: 'المصروفات', icon: DollarSign },
       { path: '/currency', label: 'محول العملات', icon: RefreshCw },

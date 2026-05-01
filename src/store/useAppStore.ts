@@ -374,7 +374,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   updateProductField: async (id, field, value) => {
     const map: Record<string, string> = { quantity: 'quantity_purchased' };
     const dbField = map[field] || field;
-    const { data } = await supabase.from('products').update({ [dbField]: value }).eq('id', id).select().single();
+    const { data } = await supabase.from('products').update({ [dbField]: value } as any).eq('id', id).select().single();
     if (data) {
       set(s => ({
         products: s.products.map(x => x.id === id ? mapProduct(data) : x),
@@ -443,7 +443,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     return null;
   },
   updatePurchaseInvoice: async (id, data) => {
-    const { data: upd } = await supabase.from('purchase_invoices').update(data).eq('id', id).select().single();
+    const { data: upd } = await supabase.from('purchase_invoices').update({ ...data, items: undefined } as any).eq('id', id).select().single();
     if (upd) set(s => ({
       purchaseInvoices: s.purchaseInvoices.map(inv => inv.id === id ? { ...inv, ...upd, paid_amount: Number(upd.paid_amount) } as any : inv),
     }));
@@ -477,7 +477,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     }
   },
   updatePurchaseItem: async (id, field, value) => {
-    const { data } = await supabase.from('purchase_items').update({ [field]: value }).eq('id', id).select().single();
+    const { data } = await supabase.from('purchase_items').update({ [field]: value } as any).eq('id', id).select().single();
     if (data) {
       set(s => ({
         purchaseInvoices: s.purchaseInvoices.map(inv => ({
@@ -518,7 +518,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     return null;
   },
   updateSalesInvoice: async (id, data) => {
-    const { data: upd } = await supabase.from('sales_invoices').update(data).eq('id', id).select().single();
+    const { data: upd } = await supabase.from('sales_invoices').update({ ...data, items: undefined } as any).eq('id', id).select().single();
     if (upd) set(s => ({
       salesInvoices: s.salesInvoices.map(inv => inv.id === id ? { ...inv, ...upd, paid_amount: Number(upd.paid_amount) } as any : inv),
     }));
@@ -551,7 +551,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     }
   },
   updateSalesItem: async (id, field, value) => {
-    const { data } = await supabase.from('sales_items').update({ [field]: value }).eq('id', id).select().single();
+    const { data } = await supabase.from('sales_items').update({ [field]: value } as any).eq('id', id).select().single();
     if (data) {
       set(s => ({
         salesInvoices: s.salesInvoices.map(inv => ({
@@ -588,7 +588,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     return null;
   },
   updateQuotation: async (id, data) => {
-    const { data: upd } = await supabase.from('quotations').update(data).eq('id', id).select().single();
+    const { data: upd } = await supabase.from('quotations').update({ ...data, items: undefined } as any).eq('id', id).select().single();
     if (upd) set(s => ({ quotations: s.quotations.map(q => q.id === id ? { ...q, ...upd } as any : q) }));
   },
   deleteQuotation: async (id) => {
@@ -616,7 +616,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     }
   },
   updateQuotationItem: async (id, field, value) => {
-    const { data } = await supabase.from('quotation_items').update({ [field]: value }).eq('id', id).select().single();
+    const { data } = await supabase.from('quotation_items').update({ [field]: value } as any).eq('id', id).select().single();
     if (data) {
       set(s => ({
         quotations: s.quotations.map(q => ({

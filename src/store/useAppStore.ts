@@ -121,6 +121,7 @@ interface AppState {
   purchaseInvoices: PurchaseInvoice[];
   salesInvoices: SalesInvoice[];
   quotations: Quotation[];
+  payments: Payment[];
   settings: AppSettings | null;
   loading: boolean;
   initialized: boolean;

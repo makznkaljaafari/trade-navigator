@@ -33,7 +33,9 @@ export const navGroups = [
     items: [
       { path: '/customers', label: 'العملاء', icon: UserCircle },
       { path: '/sales', label: 'فواتير البيع', icon: Receipt },
+      { path: '/payments', label: 'المدفوعات', icon: Wallet },
       { path: '/expenses', label: 'المصروفات', icon: DollarSign },
+      { path: '/reports', label: 'التقارير', icon: BarChart3 },
       { path: '/currency', label: 'محول العملات', icon: RefreshCw },
       { path: '/settings', label: 'الإعدادات', icon: Settings },
     ],

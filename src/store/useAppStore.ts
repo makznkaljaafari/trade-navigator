@@ -307,6 +307,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       purchaseInvoices,
       salesInvoices,
       quotations: quotationsList,
+      payments: ((payments.data || []) as any[]).map(p => ({ ...p, amount: Number(p.amount) || 0 })),
       settings: s ? {
         ...s,
         rate_cny_usd: Number(s.rate_cny_usd),

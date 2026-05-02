@@ -37,6 +37,13 @@ export default function ProductsPage() {
     { key: 'size', header: 'المقاس', minWidth: '70px' },
     { key: 'purchase_price', header: 'سعر الشراء', minWidth: '80px', type: 'number', align: 'center' },
     { key: 'sale_price', header: 'سعر البيع', minWidth: '80px', type: 'number', align: 'center' },
+    {
+      key: 'margin', header: 'الهامش %', minWidth: '70px', editable: false, align: 'center',
+      render: (row) => {
+        const m = row.purchase_price > 0 ? ((row.sale_price - row.purchase_price) / row.purchase_price) * 100 : 0;
+        return <span className={`font-bold ${m > 30 ? 'text-accent' : m > 0 ? 'text-secondary' : 'text-destructive'}`}>{m.toFixed(0)}%</span>;
+      },
+    },
     { key: 'quantity', header: 'الكمية', minWidth: '60px', type: 'number', align: 'center' },
     {
       key: 'rating', header: 'التقييم', minWidth: '80px',

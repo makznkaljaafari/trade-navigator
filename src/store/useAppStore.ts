@@ -85,6 +85,17 @@ export interface Customer {
   notes: string | null;
 }
 
+export interface Payment {
+  id: string;
+  payment_type: 'purchase' | 'sales';
+  invoice_id: string;
+  amount: number;
+  currency: string;
+  payment_method: string;
+  date: string;
+  notes: string | null;
+}
+
 export interface AppSettings {
   user_id: string;
   company_name: string | null;
@@ -110,6 +121,7 @@ interface AppState {
   purchaseInvoices: PurchaseInvoice[];
   salesInvoices: SalesInvoice[];
   quotations: Quotation[];
+  payments: Payment[];
   settings: AppSettings | null;
   loading: boolean;
   initialized: boolean;
@@ -173,6 +185,10 @@ interface AppState {
 
   // Settings
   saveSettings: (d: Partial<AppSettings>) => Promise<void>;
+
+  // Payments
+  addPayment: (p: Omit<Payment, 'id'>) => Promise<void>;
+  deletePayment: (id: string) => Promise<void>;
 }
 
 const userId = async () => (await supabase.auth.getUser()).data.user?.id;
@@ -207,6 +223,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   purchaseInvoices: [],
   salesInvoices: [],
   quotations: [],
+  payments: [],
   settings: null,
   loading: false,
   initialized: false,
@@ -214,12 +231,12 @@ export const useAppStore = create<AppState>((set, get) => ({
   reset: () => set({
     trips: [], suppliers: [], customers: [], products: [], shipments: [],
     expenses: [], inventory: [], purchaseInvoices: [], salesInvoices: [],
-    quotations: [], settings: null, initialized: false,
+    quotations: [], payments: [], settings: null, initialized: false,
   }),
 
   loadAll: async () => {
     set({ loading: true });
-    const [trips, suppliers, customers, products, shipments, expenses, pInvoices, pItems, sInvoices, sItems, quotations, qItems, settings] = await Promise.all([
+    const [trips, suppliers, customers, products, shipments, expenses, pInvoices, pItems, sInvoices, sItems, quotations, qItems, payments, settings] = await Promise.all([
       supabase.from('trips').select('*').order('created_at', { ascending: false }),
       supabase.from('suppliers').select('*').order('created_at', { ascending: false }),
       supabase.from('customers').select('*').order('created_at', { ascending: false }),
@@ -232,6 +249,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       supabase.from('sales_items').select('*'),
       supabase.from('quotations').select('*').order('date', { ascending: false }),
       supabase.from('quotation_items').select('*'),
+      supabase.from('payments').select('*').order('date', { ascending: false }),
       supabase.from('settings').select('*').maybeSingle(),
     ]);
 
@@ -289,6 +307,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       purchaseInvoices,
       salesInvoices,
       quotations: quotationsList,
+      payments: ((payments.data || []) as any[]).map(p => ({ ...p, amount: Number(p.amount) || 0 })),
       settings: s ? {
         ...s,
         rate_cny_usd: Number(s.rate_cny_usd),
@@ -649,5 +668,19 @@ export const useAppStore = create<AppState>((set, get) => ({
         rate_usd_sar: Number(upd.rate_usd_sar),
       } as any,
     });
+  },
+  // ============ Payments ============
+  addPayment: async (p) => {
+    const uid = await userId(); if (!uid) return;
+    const { data } = await supabase.from('payments').insert({ ...p, user_id: uid }).select().single();
+    if (data) {
+      set(s => ({ payments: [{ ...data, amount: Number(data.amount) } as any, ...s.payments] }));
+      get().loadAll();
+    }
+  },
+  deletePayment: async (id) => {
+    await supabase.from('payments').delete().eq('id', id);
+    set(s => ({ payments: s.payments.filter(p => p.id !== id) }));
+    get().loadAll();
   },
 }));

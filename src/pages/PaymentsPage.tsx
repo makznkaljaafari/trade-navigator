@@ -28,7 +28,7 @@ const METHODS: Record<string, string> = {
 };
 
 export default function PaymentsPage() {
-  const { payments, purchaseInvoices, salesInvoices, suppliers, customers, addPayment, deletePayment } = useAppStore();
+  const { payments, purchaseInvoices, salesInvoices, suppliers, addPayment, deletePayment } = useAppStore();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState(emptyForm);
   const [deleteId, setDeleteId] = useState<string | null>(null);

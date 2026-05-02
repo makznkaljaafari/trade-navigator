@@ -223,6 +223,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   purchaseInvoices: [],
   salesInvoices: [],
   quotations: [],
+  payments: [],
   settings: null,
   loading: false,
   initialized: false,
@@ -230,12 +231,12 @@ export const useAppStore = create<AppState>((set, get) => ({
   reset: () => set({
     trips: [], suppliers: [], customers: [], products: [], shipments: [],
     expenses: [], inventory: [], purchaseInvoices: [], salesInvoices: [],
-    quotations: [], settings: null, initialized: false,
+    quotations: [], payments: [], settings: null, initialized: false,
   }),
 
   loadAll: async () => {
     set({ loading: true });
-    const [trips, suppliers, customers, products, shipments, expenses, pInvoices, pItems, sInvoices, sItems, quotations, qItems, settings] = await Promise.all([
+    const [trips, suppliers, customers, products, shipments, expenses, pInvoices, pItems, sInvoices, sItems, quotations, qItems, payments, settings] = await Promise.all([
       supabase.from('trips').select('*').order('created_at', { ascending: false }),
       supabase.from('suppliers').select('*').order('created_at', { ascending: false }),
       supabase.from('customers').select('*').order('created_at', { ascending: false }),
@@ -248,6 +249,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       supabase.from('sales_items').select('*'),
       supabase.from('quotations').select('*').order('date', { ascending: false }),
       supabase.from('quotation_items').select('*'),
+      supabase.from('payments').select('*').order('date', { ascending: false }),
       supabase.from('settings').select('*').maybeSingle(),
     ]);
 

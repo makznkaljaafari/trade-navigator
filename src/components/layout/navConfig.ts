@@ -1,6 +1,7 @@
 import {
   LayoutDashboard, Plane, Users, Package, FileText, Ship,
-  Warehouse, ShoppingCart, Receipt, DollarSign, Settings, RefreshCw, UserCircle
+  Warehouse, ShoppingCart, Receipt, DollarSign, Settings, RefreshCw, UserCircle,
+  Wallet, BarChart3,
 } from 'lucide-react';
 
 export const navGroups = [

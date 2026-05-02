@@ -25,6 +25,8 @@ const ExpensesPage = lazy(() => import("./pages/ExpensesPage"));
 const CurrencyPage = lazy(() => import("./pages/CurrencyPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const CustomersPage = lazy(() => import("./pages/CustomersPage"));
+const PaymentsPage = lazy(() => import("./pages/PaymentsPage"));
+const ReportsPage = lazy(() => import("./pages/ReportsPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, refetchOnWindowFocus: false } },

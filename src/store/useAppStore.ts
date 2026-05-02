@@ -85,6 +85,17 @@ export interface Customer {
   notes: string | null;
 }
 
+export interface Payment {
+  id: string;
+  payment_type: 'purchase' | 'sales';
+  invoice_id: string;
+  amount: number;
+  currency: string;
+  payment_method: string;
+  date: string;
+  notes: string | null;
+}
+
 export interface AppSettings {
   user_id: string;
   company_name: string | null;

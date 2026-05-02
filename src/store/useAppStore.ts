@@ -185,6 +185,10 @@ interface AppState {
 
   // Settings
   saveSettings: (d: Partial<AppSettings>) => Promise<void>;
+
+  // Payments
+  addPayment: (p: Omit<Payment, 'id'>) => Promise<void>;
+  deletePayment: (id: string) => Promise<void>;
 }
 
 const userId = async () => (await supabase.auth.getUser()).data.user?.id;

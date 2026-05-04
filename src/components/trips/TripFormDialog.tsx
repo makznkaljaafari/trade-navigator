@@ -27,11 +27,15 @@ export default function TripFormDialog({ open, onOpenChange, editing }: { open: 
       setErrors(fe); return;
     }
     const d = r.data;
+    const payload = {
+      name: d.name!, country: d.country!, city: d.city!,
+      start_date: d.start_date!, end_date: d.end_date!, notes: d.notes || '',
+    };
     if (editing) {
-      updateTrip(editing.id, { ...d, notes: d.notes || '' });
+      updateTrip(editing.id, payload);
       toast({ title: 'تم التحديث' });
     } else {
-      addTrip({ ...d, notes: d.notes || '', status: 'planning' });
+      addTrip({ ...payload, status: 'planning' });
       toast({ title: 'تمت الإضافة' });
     }
     onOpenChange(false);

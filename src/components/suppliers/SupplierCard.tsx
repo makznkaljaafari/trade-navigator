@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Phone, MessageCircle, Building2, MapPin, Edit2, Trash2, MoreVertical } from 'lucide-react';
 import { StarRating } from '@/components/shared';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -15,7 +14,7 @@ interface Props {
 export default function SupplierCard({ supplier: sup, index: i, onEdit, onDelete }: Props) {
   const updateSupplier = useAppStore(s => s.updateSupplier);
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+    <div}}}
       className="group bg-card rounded-2xl border border-border p-4 shadow-card glass-card-hover">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
@@ -68,6 +67,6 @@ export default function SupplierCard({ supplier: sup, index: i, onEdit, onDelete
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }

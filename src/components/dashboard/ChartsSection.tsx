@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { BarChart3, DollarSign } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -30,7 +29,7 @@ export function ChartsSection({ barChartData, expensesByCategory }: ChartsSectio
 
   return (
     <div className="grid lg:grid-cols-2 gap-3">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div}}} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <h3 className="font-bold text-xs flex items-center gap-1.5 mb-3">
           <BarChart3 className="w-3.5 h-3.5 text-primary" />
           المشتريات مقابل المبيعات
@@ -47,9 +46,9 @@ export function ChartsSection({ barChartData, expensesByCategory }: ChartsSectio
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </motion.div>
+      </div>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div}}} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <h3 className="font-bold text-xs flex items-center gap-1.5 mb-3">
           <DollarSign className="w-3.5 h-3.5 text-secondary" />
           توزيع المصاريف
@@ -77,7 +76,7 @@ export function ChartsSection({ barChartData, expensesByCategory }: ChartsSectio
             </PieChart>
           </ResponsiveContainer>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

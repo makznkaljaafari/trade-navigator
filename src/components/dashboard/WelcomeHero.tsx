@@ -43,6 +43,6 @@ export function WelcomeHero({ profitMargin, productsCount, inTransitCount }: Wel
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

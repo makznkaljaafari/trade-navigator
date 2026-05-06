@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { bottomNavItems } from './navConfig';
+import { preloadRoute } from '@/lib/routePreload';
 
 export function BottomNav({ onMoreClick }: { onMoreClick: () => void }) {
   const location = useLocation();
@@ -14,7 +15,9 @@ export function BottomNav({ onMoreClick }: { onMoreClick: () => void }) {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex flex-col items-center py-1 px-1.5 rounded-lg text-[9px] transition-all duration-200 min-w-[48px] active:scale-95 ${
+              onTouchStart={() => preloadRoute(item.path)}
+              onMouseEnter={() => preloadRoute(item.path)}
+              className={`flex flex-col items-center py-1 px-1.5 rounded-lg text-[9px] transition-colors duration-150 min-w-[48px] active:scale-95 ${
                 isActive ? 'text-primary font-bold' : 'text-muted-foreground'
               }`}
             >

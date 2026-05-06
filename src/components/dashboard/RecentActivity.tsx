@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { StatusBadge, StarRating } from '@/components/shared';
 import { Plane, Ship, Users, Warehouse } from 'lucide-react';
 import { Trip, Supplier, Shipment, InventoryItem } from '@/types';
@@ -14,7 +13,7 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
   return (
     <div className="grid lg:grid-cols-2 gap-3">
       {/* Active Trips */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-bold text-xs flex items-center gap-1.5">
             <Plane className="w-3.5 h-3.5 text-primary" />
@@ -33,10 +32,10 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
             </div>
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Shipment Tracking */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-bold text-xs flex items-center gap-1.5">
             <Ship className="w-3.5 h-3.5 text-info" />
@@ -62,10 +61,10 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
             </div>
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Top Suppliers */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-bold text-xs flex items-center gap-1.5">
             <Users className="w-3.5 h-3.5 text-secondary" />
@@ -88,10 +87,10 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
             </div>
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Inventory Status */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-bold text-xs flex items-center gap-1.5">
             <Warehouse className="w-3.5 h-3.5 text-accent" />
@@ -113,11 +112,9 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
                   </span>
                 </div>
                 <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${pct}%` }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
-                    className={`h-full rounded-full ${
+                  <div
+                    style={{ width: `${pct}%` }}
+                    className={`h-full rounded-full transition-all duration-500 ${
                       pct > 50 ? 'bg-accent' : pct > 20 ? 'bg-secondary' : 'bg-destructive'
                     }`}
                   />
@@ -126,7 +123,7 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
             );
           })}
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

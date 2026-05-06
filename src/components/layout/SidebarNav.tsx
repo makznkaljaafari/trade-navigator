@@ -1,6 +1,6 @@
 import { useLocation, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { navGroups } from './navConfig';
+import { preloadRoute } from '@/lib/routePreload';
 
 export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   const location = useLocation();
@@ -14,12 +14,16 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
           </p>
           {group.items.map(item => {
             const isActive = location.pathname === item.path;
+            const prefetch = () => preloadRoute(item.path);
             return (
               <Link
                 key={item.path}
                 to={item.path}
                 onClick={onNavigate}
-                className={`flex items-center gap-2 px-2.5 py-1.5 mx-2 rounded-md text-[12px] font-medium transition-all duration-200 ${
+                onMouseEnter={prefetch}
+                onTouchStart={prefetch}
+                onFocus={prefetch}
+                className={`flex items-center gap-2 px-2.5 py-1.5 mx-2 rounded-md text-[12px] font-medium transition-colors duration-150 ${
                   isActive
                     ? 'gradient-secondary shadow-colored-secondary text-secondary-foreground'
                     : 'text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground'
@@ -27,12 +31,7 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
               >
                 <item.icon className={`w-3.5 h-3.5 ${isActive ? '' : 'opacity-70'}`} />
                 <span>{item.label}</span>
-                {isActive && (
-                  <motion.div
-                    layoutId="nav-active"
-                    className="mr-auto w-1 h-1 rounded-full bg-secondary-foreground"
-                  />
-                )}
+                {isActive && <span className="mr-auto w-1 h-1 rounded-full bg-secondary-foreground" />}
               </Link>
             );
           })}
@@ -41,3 +40,4 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
     </div>
   );
 }
+

@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Edit2, Trash2, MoreVertical } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { EXPENSE_CATEGORIES } from '@/constants';
@@ -11,7 +10,7 @@ interface Props { expense: Expense; index: number; onEdit: (e: Expense) => void;
 export default function ExpenseRow({ expense: exp, index: i, onEdit, onDelete }: Props) {
   const cat = EXPENSE_CATEGORIES[exp.category];
   return (
-    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.03 }}
+    <div
       className="group bg-card rounded-xl border border-border p-4 shadow-sm flex items-center justify-between">
       <div className="flex items-center gap-3">
         <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${cat?.style || ''}`}>{cat?.label || exp.category}</span>
@@ -41,6 +40,6 @@ export default function ExpenseRow({ expense: exp, index: i, onEdit, onDelete }:
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </motion.div>
+    </div>
   );
 }

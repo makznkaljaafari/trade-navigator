@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { LucideIcon, TrendingUp, TrendingDown } from 'lucide-react';
 
 interface StatCardProps {
@@ -19,39 +18,32 @@ const variantConfig = {
     sub: 'text-muted-foreground',
   },
   primary: {
-    card: 'gradient-primary shadow-colored-primary gradient-card-shine',
+    card: 'gradient-primary shadow-colored-primary',
     icon: 'bg-primary-foreground/15 text-primary-foreground',
     text: 'text-primary-foreground',
     sub: 'text-primary-foreground/70',
   },
   secondary: {
-    card: 'gradient-secondary shadow-colored-secondary gradient-card-shine',
+    card: 'gradient-secondary shadow-colored-secondary',
     icon: 'bg-secondary-foreground/15 text-secondary-foreground',
     text: 'text-secondary-foreground',
     sub: 'text-secondary-foreground/70',
   },
   accent: {
-    card: 'gradient-accent shadow-colored-accent gradient-card-shine',
+    card: 'gradient-accent shadow-colored-accent',
     icon: 'bg-accent-foreground/15 text-accent-foreground',
     text: 'text-accent-foreground',
     sub: 'text-accent-foreground/70',
   },
 };
 
-export function StatCard({ title, value, icon: Icon, trend, trendUp, variant = 'default', delay = 0 }: StatCardProps) {
+export function StatCard({ title, value, icon: Icon, trend, trendUp, variant = 'default' }: StatCardProps) {
   const config = variantConfig[variant];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ delay, duration: 0.4, ease: 'easeOut' }}
-      className={`rounded-lg p-2.5 lg:p-3 ${config.card}`}
-    >
+    <div className={`rounded-lg p-2.5 lg:p-3 ${config.card}`}>
       <div className="flex items-start justify-between mb-1.5">
-        <span className={`text-[10px] lg:text-[11px] font-medium ${config.sub}`}>
-          {title}
-        </span>
+        <span className={`text-[10px] lg:text-[11px] font-medium ${config.sub}`}>{title}</span>
         <div className={`p-1 lg:p-1.5 rounded-md ${config.icon}`}>
           <Icon className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
         </div>
@@ -63,6 +55,6 @@ export function StatCard({ title, value, icon: Icon, trend, trendUp, variant = '
           <span className="text-[9px] font-semibold">{trend}</span>
         </div>
       )}
-    </motion.div>
+    </div>
   );
 }

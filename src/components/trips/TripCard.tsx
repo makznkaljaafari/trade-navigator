@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { MapPin, Calendar, Edit2, Trash2, MoreVertical } from 'lucide-react';
 import { StatusBadge } from '@/components/shared';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -8,7 +7,7 @@ interface Props { trip: Trip; index: number; onEdit: (t: Trip) => void; onDelete
 
 export default function TripCard({ trip, index: i, onEdit, onDelete }: Props) {
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+    <div
       className="group bg-card rounded-2xl border border-border p-4 shadow-card glass-card-hover">
       <div className="flex items-start justify-between mb-3">
         <h4 className="font-bold text-sm">{trip.name}</h4>
@@ -46,6 +45,6 @@ export default function TripCard({ trip, index: i, onEdit, onDelete }: Props) {
       {trip.notes && (
         <p className="text-xs text-muted-foreground mt-3 pt-3 border-t border-border/50 line-clamp-2">{trip.notes}</p>
       )}
-    </motion.div>
+    </div>
   );
 }

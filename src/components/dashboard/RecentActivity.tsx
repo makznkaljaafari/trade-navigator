@@ -112,8 +112,9 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
                   </span>
                 </div>
                 <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
-                  <div}%` 
-                    className={`h-full rounded-full ${
+                  <div
+                    style={{ width: `${pct}%` }}
+                    className={`h-full rounded-full transition-all duration-500 ${
                       pct > 50 ? 'bg-accent' : pct > 20 ? 'bg-secondary' : 'bg-destructive'
                     }`}
                   />

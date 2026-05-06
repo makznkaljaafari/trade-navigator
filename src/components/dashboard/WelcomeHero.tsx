@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Activity, BarChart3, Ship } from 'lucide-react';
 
 interface WelcomeHeroProps {
@@ -9,12 +8,8 @@ interface WelcomeHeroProps {
 
 export function WelcomeHero({ profitMargin, productsCount, inTransitCount }: WelcomeHeroProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="gradient-hero rounded-xl p-4 lg:p-6 text-sidebar-foreground relative overflow-hidden"
-    >
-      <div className="absolute inset-0 opacity-10">
+    <div className="gradient-hero rounded-xl p-4 lg:p-6 text-sidebar-foreground relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-4 left-8 w-28 h-28 rounded-full bg-secondary blur-3xl" />
         <div className="absolute bottom-0 right-16 w-32 h-32 rounded-full bg-primary blur-3xl" />
       </div>

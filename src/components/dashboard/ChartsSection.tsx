@@ -36,10 +36,10 @@ export function ChartsSection({ barChartData, expensesByCategory }: ChartsSectio
         </h3>
         <div className="h-52">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={barChartData} margin={{ top: 5, right: 5, left: 0, bottom: 5 >
+            <BarChart data={barChartData} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))'  />
-              <YAxis tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))'  />
+              <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} />
+              <YAxis tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} />
               <Tooltip contentStyle={tooltipStyle} formatter={(value: number) => [`$${formatNumber(value)}`, '']} />
               <Bar dataKey="purchases" name="المشتريات" fill="hsl(var(--primary))" radius={[3, 3, 0, 0]} />
               <Bar dataKey="sales" name="المبيعات" fill="hsl(var(--accent))" radius={[3, 3, 0, 0]} />
@@ -66,7 +66,7 @@ export function ChartsSection({ barChartData, expensesByCategory }: ChartsSectio
                 dataKey="value"
                 label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                 labelLine={false}
-                style={{ fontSize: 10 
+                style={{ fontSize: 10 }}
               >
                 {expensesByCategory.map((_, idx) => (
                   <Cell key={idx} fill={CHART_COLORS[idx % CHART_COLORS.length]} />

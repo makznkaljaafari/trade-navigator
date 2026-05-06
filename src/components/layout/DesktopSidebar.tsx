@@ -4,7 +4,7 @@ import { SidebarNav } from './SidebarNav';
 
 export function DesktopSidebar() {
   return (
-    <aside className="hidden lg:flex flex-col w-[230px] gradient-sidebar fixed inset-y-0 right-0 z-40 border-l border-sidebar-border/50">
+    <aside className="hidden lg:flex flex-col w-[210px] gradient-sidebar fixed inset-y-0 right-0 z-40 border-l border-sidebar-border/50">
       <div className="p-3 pb-2 flex items-center gap-2.5">
         <div className="w-9 h-9 rounded-lg gradient-secondary shadow-colored-secondary flex items-center justify-center overflow-hidden">
           <img src={logoImg} alt="Logo" className="w-6 h-6 object-contain" />

@@ -14,12 +14,12 @@ export function BottomNav({ onMoreClick }: { onMoreClick: () => void }) {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex flex-col items-center py-2 px-2 rounded-xl text-[10px] transition-all duration-200 min-w-[56px] active:scale-95 ${
+              className={`flex flex-col items-center py-1 px-1.5 rounded-lg text-[9px] transition-all duration-200 min-w-[48px] active:scale-95 ${
                 isActive ? 'text-primary font-bold' : 'text-muted-foreground'
               }`}
             >
-              <div className={`p-1 rounded-lg transition-colors ${isActive ? 'bg-primary/10' : ''}`}>
-                <item.icon className={`w-5 h-5 ${isActive ? 'text-primary' : ''}`} />
+              <div className={`p-0.5 rounded-md transition-colors ${isActive ? 'bg-primary/10' : ''}`}>
+                <item.icon className={`w-4 h-4 ${isActive ? 'text-primary' : ''}`} />
               </div>
               <span className="mt-0.5 truncate">{item.label}</span>
             </Link>
@@ -27,10 +27,10 @@ export function BottomNav({ onMoreClick }: { onMoreClick: () => void }) {
         })}
         <button
           onClick={onMoreClick}
-          className="flex flex-col items-center py-2 px-2 rounded-xl text-[10px] text-muted-foreground min-w-[56px] active:scale-95"
+          className="flex flex-col items-center py-1 px-1.5 rounded-lg text-[9px] text-muted-foreground min-w-[48px] active:scale-95"
         >
-          <div className="p-1">
-            <Menu className="w-5 h-5" />
+          <div className="p-0.5">
+            <Menu className="w-4 h-4" />
           </div>
           <span className="mt-0.5">المزيد</span>
         </button>

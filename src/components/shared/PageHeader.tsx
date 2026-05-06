@@ -12,13 +12,13 @@ export function PageHeader({ title, subtitle, children }: PageHeaderProps) {
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex items-center justify-between mb-3 lg:mb-4"
+      className="flex items-center justify-between mb-2.5 lg:mb-3 gap-2"
     >
-      <div>
-        <h3 className="text-base lg:text-lg font-extrabold tracking-tight">{title}</h3>
-        {subtitle && <p className="text-[11px] text-muted-foreground mt-0.5">{subtitle}</p>}
+      <div className="min-w-0">
+        <h3 className="text-sm lg:text-base font-extrabold tracking-tight truncate">{title}</h3>
+        {subtitle && <p className="text-[10px] text-muted-foreground mt-0.5 truncate">{subtitle}</p>}
       </div>
-      {children && <div className="flex gap-2">{children}</div>}
+      {children && <div className="flex gap-1.5 shrink-0">{children}</div>}
     </motion.div>
   );
 }

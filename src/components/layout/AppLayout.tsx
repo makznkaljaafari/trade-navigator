@@ -21,9 +21,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       <DesktopSidebar />
       <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <main className="flex-1 lg:mr-[230px] min-w-0">
+      <main className="flex-1 lg:mr-[210px] min-w-0">
         <TopBar title={currentPage} onMenuClick={() => setSidebarOpen(true)} />
-        <div className="p-3 lg:p-5 pb-20 lg:pb-6">
+        <div className="p-2.5 lg:p-4 pb-20 lg:pb-5">
           <Breadcrumbs />
           {children}
         </div>

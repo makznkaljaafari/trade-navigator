@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+// styled card
 import { Ship, MapPin, Package, DollarSign, Weight, Calendar, Anchor, Clock, Check, Edit2, Trash2 } from 'lucide-react';
 import { StatusBadge } from '@/components/shared';
 import { STATUS_LABELS } from '@/constants';
@@ -19,8 +19,7 @@ export default function ShipmentCard({ shipment: s, index: i, onEdit, onDelete }
   const currentIdx = TIMELINE_STAGES.indexOf(s.status as typeof TIMELINE_STAGES[number]);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-      className="group bg-card rounded-2xl border border-border p-5 shadow-card glass-card-hover">
+    <div className="group bg-card rounded-2xl border border-border p-5 shadow-card glass-card-hover">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="w-11 h-11 rounded-xl gradient-primary shadow-colored-primary flex items-center justify-center">
@@ -52,8 +51,7 @@ export default function ShipmentCard({ shipment: s, index: i, onEdit, onDelete }
           </div>
           <div className="flex-1 relative">
             <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-              <motion.div initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 1, ease: 'easeOut' }}
-                className="h-full gradient-secondary rounded-full" />
+              <div style={{ width: `${progress}%` }} className="h-full gradient-secondary rounded-full transition-all duration-500" />
             </div>
           </div>
           <div className="text-center">
@@ -119,6 +117,6 @@ export default function ShipmentCard({ shipment: s, index: i, onEdit, onDelete }
         </div>
         <span className="font-medium">{s.shipping_type === 'sea' ? '🚢 بحري' : '✈️ جوي'}</span>
       </div>
-    </motion.div>
+    </div>
   );
 }

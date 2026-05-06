@@ -17,21 +17,21 @@ export function TopBar({ title, onMenuClick }: { title: string; onMenuClick: () 
 
   return (
     <header className="sticky top-0 z-30 bg-background/70 backdrop-blur-2xl border-b border-border/60">
-      <div className="px-3 lg:px-5 py-2 flex items-center gap-2">
+      <div className="px-2.5 lg:px-4 py-1.5 flex items-center gap-1.5">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 -mr-2 rounded-lg hover:bg-muted transition-colors"
+          className="lg:hidden p-1.5 -mr-1 rounded-md hover:bg-muted transition-colors"
           aria-label="فتح القائمة"
         >
-          <Menu className="w-5 h-5" />
+          <Menu className="w-4 h-4" />
         </button>
-        <div className="flex-1">
-          <h2 className="text-sm font-bold">{title}</h2>
+        <div className="flex-1 min-w-0">
+          <h2 className="text-xs lg:text-sm font-bold truncate">{title}</h2>
         </div>
         <NotificationBell />
         <DropdownMenu>
-          <DropdownMenuTrigger className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary-glow grid place-items-center text-primary-foreground text-xs font-bold">
-            {user?.email?.[0]?.toUpperCase() || <User className="w-4 h-4" />}
+          <DropdownMenuTrigger className="w-7 h-7 rounded-full gradient-primary grid place-items-center text-primary-foreground text-[10px] font-bold shadow-colored-primary">
+            {user?.email?.[0]?.toUpperCase() || <User className="w-3.5 h-3.5" />}
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel className="text-xs truncate">{user?.email}</DropdownMenuLabel>

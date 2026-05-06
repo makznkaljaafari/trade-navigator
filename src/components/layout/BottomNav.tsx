@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { bottomNavItems } from './navConfig';
+import { preloadRoute } from '@/lib/routePreload';
 
 export function BottomNav({ onMoreClick }: { onMoreClick: () => void }) {
   const location = useLocation();

@@ -19,7 +19,7 @@ export function QuickCounts({ trips, suppliers, shipments, products }: QuickCoun
     <div className="grid grid-cols-4 gap-2">
       {items.map((item, i) => (
         <div
-          key={item.label}}}}
+          key={item.label}
           className="bg-card rounded-lg border border-border/60 p-2.5 shadow-card text-center"
         >
           <item.icon className={`w-4 h-4 mx-auto mb-1 ${item.color}`} />

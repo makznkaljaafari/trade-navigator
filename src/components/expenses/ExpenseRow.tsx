@@ -10,7 +10,7 @@ interface Props { expense: Expense; index: number; onEdit: (e: Expense) => void;
 export default function ExpenseRow({ expense: exp, index: i, onEdit, onDelete }: Props) {
   const cat = EXPENSE_CATEGORIES[exp.category];
   return (
-    <div}}}
+    <div
       className="group bg-card rounded-xl border border-border p-4 shadow-sm flex items-center justify-between">
       <div className="flex items-center gap-3">
         <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${cat?.style || ''}`}>{cat?.label || exp.category}</span>

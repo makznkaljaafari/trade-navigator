@@ -13,7 +13,7 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
   return (
     <div className="grid lg:grid-cols-2 gap-3">
       {/* Active Trips */}
-      <div}}} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-bold text-xs flex items-center gap-1.5">
             <Plane className="w-3.5 h-3.5 text-primary" />
@@ -35,7 +35,7 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
       </div>
 
       {/* Shipment Tracking */}
-      <div}}} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-bold text-xs flex items-center gap-1.5">
             <Ship className="w-3.5 h-3.5 text-info" />
@@ -64,7 +64,7 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
       </div>
 
       {/* Top Suppliers */}
-      <div}}} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-bold text-xs flex items-center gap-1.5">
             <Users className="w-3.5 h-3.5 text-secondary" />
@@ -90,7 +90,7 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
       </div>
 
       {/* Inventory Status */}
-      <div}}} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-bold text-xs flex items-center gap-1.5">
             <Warehouse className="w-3.5 h-3.5 text-accent" />
@@ -112,7 +112,7 @@ export function RecentActivity({ trips, suppliers, shipments, inventory }: Recen
                   </span>
                 </div>
                 <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
-                  <div}%` }}}
+                  <div}%` 
                     className={`h-full rounded-full ${
                       pct > 50 ? 'bg-accent' : pct > 20 ? 'bg-secondary' : 'bg-destructive'
                     }`}

@@ -7,7 +7,7 @@ interface Props { trip: Trip; index: number; onEdit: (t: Trip) => void; onDelete
 
 export default function TripCard({ trip, index: i, onEdit, onDelete }: Props) {
   return (
-    <div}}}
+    <div
       className="group bg-card rounded-2xl border border-border p-4 shadow-card glass-card-hover">
       <div className="flex items-start justify-between mb-3">
         <h4 className="font-bold text-sm">{trip.name}</h4>

@@ -29,17 +29,17 @@ export function ChartsSection({ barChartData, expensesByCategory }: ChartsSectio
 
   return (
     <div className="grid lg:grid-cols-2 gap-3">
-      <div}}} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <h3 className="font-bold text-xs flex items-center gap-1.5 mb-3">
           <BarChart3 className="w-3.5 h-3.5 text-primary" />
           المشتريات مقابل المبيعات
         </h3>
         <div className="h-52">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={barChartData} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
+            <BarChart data={barChartData} margin={{ top: 5, right: 5, left: 0, bottom: 5 >
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} />
-              <YAxis tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} />
+              <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))'  />
+              <YAxis tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))'  />
               <Tooltip contentStyle={tooltipStyle} formatter={(value: number) => [`$${formatNumber(value)}`, '']} />
               <Bar dataKey="purchases" name="المشتريات" fill="hsl(var(--primary))" radius={[3, 3, 0, 0]} />
               <Bar dataKey="sales" name="المبيعات" fill="hsl(var(--accent))" radius={[3, 3, 0, 0]} />
@@ -48,7 +48,7 @@ export function ChartsSection({ barChartData, expensesByCategory }: ChartsSectio
         </div>
       </div>
 
-      <div}}} className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
+      <div className="bg-card rounded-xl border border-border/60 p-4 shadow-card">
         <h3 className="font-bold text-xs flex items-center gap-1.5 mb-3">
           <DollarSign className="w-3.5 h-3.5 text-secondary" />
           توزيع المصاريف
@@ -66,7 +66,7 @@ export function ChartsSection({ barChartData, expensesByCategory }: ChartsSectio
                 dataKey="value"
                 label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                 labelLine={false}
-                style={{ fontSize: 10 }}
+                style={{ fontSize: 10 
               >
                 {expensesByCategory.map((_, idx) => (
                   <Cell key={idx} fill={CHART_COLORS[idx % CHART_COLORS.length]} />

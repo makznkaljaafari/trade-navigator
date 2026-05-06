@@ -14,7 +14,7 @@ interface Props {
 export default function SupplierCard({ supplier: sup, index: i, onEdit, onDelete }: Props) {
   const updateSupplier = useAppStore(s => s.updateSupplier);
   return (
-    <div}}}
+    <div
       className="group bg-card rounded-2xl border border-border p-4 shadow-card glass-card-hover">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">

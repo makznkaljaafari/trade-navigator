@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { motion } from 'framer-motion';
 import { Trash2 } from 'lucide-react';
 
 export interface ColumnDef<T> {
@@ -130,6 +129,6 @@ export function EditableTable<T extends { id: string }>({
         </tbody>
         {footer && <tfoot>{footer}</tfoot>}
       </table>
-    </motion.div>
+    </div>
   );
 }

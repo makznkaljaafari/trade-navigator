@@ -12,3 +12,4 @@ export { CurrencyConverter } from './CurrencyConverter';
 export { SearchBar } from './SearchBar';
 export { ExportButton } from './ExportButton';
 export { ConfirmDialog } from './ConfirmDialog';
+export { MicroDialog } from './MicroDialog';

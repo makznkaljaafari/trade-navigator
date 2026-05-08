@@ -11,9 +11,9 @@ interface FormFieldProps {
 export function FormField({ label, error, children }: FormFieldProps) {
   return (
     <div className="space-y-1">
-      <Label>{label}</Label>
+      <Label className="text-[11px] font-semibold text-muted-foreground">{label}</Label>
       {children}
-      {error && <p className="text-xs text-destructive font-medium">{error}</p>}
+      {error && <p className="text-[10px] text-destructive font-medium">{error}</p>}
     </div>
   );
 }
@@ -30,7 +30,7 @@ export function SelectField({ label, value, onChange, options, error }: SelectFi
   return (
     <FormField label={label} error={error}>
       <select
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        className="w-full h-8 rounded-md border border-input bg-background px-2.5 text-xs ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1"
         value={value}
         onChange={e => onChange(e.target.value)}
       >
@@ -59,7 +59,7 @@ export function TextField({ label, value, onChange, placeholder, type = 'text', 
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        className={error ? 'border-destructive' : ''}
+        className={`h-8 text-xs ${error ? 'border-destructive' : ''}`}
       />
     </FormField>
   );

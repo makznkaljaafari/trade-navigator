@@ -158,15 +158,24 @@
     -webkit-text-fill-color: transparent;
   }
 
-  /* ===== Spreadsheet ===== */
+  /* ===== Spreadsheet (Excel-like grid) ===== */
   .spreadsheet-cell {
-    @apply border-r border-b border-border/60 px-2 py-1.5 text-xs;
-    @apply focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/20 focus-within:bg-primary/5;
+    @apply border border-border/70 px-2 py-1.5 text-xs;
+    @apply focus-within:outline-none focus-within:ring-1 focus-within:ring-primary/40 focus-within:bg-primary/5 focus-within:relative focus-within:z-[1];
   }
 
   .spreadsheet-header {
-    @apply bg-muted/70 font-semibold text-[10px] uppercase tracking-wider text-muted-foreground;
-    @apply px-2 py-1.5 border-r border-b border-border/60 select-none;
+    @apply bg-muted/70 font-bold text-[10px] uppercase tracking-wider text-muted-foreground;
+    @apply px-2 py-1.5 border border-border/70 select-none;
+  }
+
+  /* Grid-lined table (collapsed borders so single line between cells) */
+  .grid-table {
+    border-collapse: collapse;
+  }
+  .grid-table th,
+  .grid-table td {
+    border: 1px solid hsl(var(--border) / 0.7);
   }
 
   /* ===== Shadows ===== */

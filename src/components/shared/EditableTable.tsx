@@ -58,12 +58,8 @@ export function EditableTable<T extends { id: string }>({
   let inputIndex = 0;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="bg-card rounded-xl border border-border shadow-sm overflow-x-auto touch-pan-x"
-    >
-      <table className="w-full" style={{ minWidth: '700px' }}>
+    <div className="bg-card rounded-xl border border-border shadow-sm overflow-x-auto touch-pan-x">
+      <table className="w-full grid-table" style={{ minWidth: '700px', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
             {showRowNumbers && <th className="spreadsheet-header w-10">#</th>}

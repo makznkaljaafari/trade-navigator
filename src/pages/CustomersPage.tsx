@@ -1,10 +1,9 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Phone, Edit2, Trash2, MoreVertical, MapPin, User } from 'lucide-react';
-import { PageHeader, EmptyState, TextField, SearchBar, ExportButton, ConfirmDialog } from '@/components/shared';
+import { PageHeader, EmptyState, TextField, SearchBar, ExportButton, ConfirmDialog, MicroDialog } from '@/components/shared';
 import { useAppStore, type Customer } from '@/store/useAppStore';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { toast } from '@/hooks/use-toast';
 
@@ -53,30 +52,32 @@ export default function CustomersPage() {
     <div className="space-y-4">
       <PageHeader title="العملاء" subtitle={`${customers.length} عميل`}>
         <ExportButton data={customers} columns={exportColumns} filename="العملاء" />
-        <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) { setForm(emptyForm); setEditing(null); setErrors({}); } }}>
-          <DialogTrigger asChild>
-            <Button className="gradient-secondary text-secondary-foreground gap-2 font-bold">
-              <Plus className="w-4 h-4" /> عميل جديد
-            </Button>
-          </DialogTrigger>
-          <DialogContent dir="rtl" className="max-w-md">
-            <DialogHeader>
-              <DialogTitle className="font-extrabold">{editing ? 'تعديل العميل' : 'إضافة عميل جديد'}</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-3 mt-2">
-              <TextField label="الاسم" value={form.name} onChange={v => setForm({ ...form, name: v })} error={errors.name} />
-              <div className="grid grid-cols-2 gap-3">
-                <TextField label="الهاتف" value={form.phone} onChange={v => setForm({ ...form, phone: v })} />
-                <TextField label="المدينة" value={form.city} onChange={v => setForm({ ...form, city: v })} />
-              </div>
-              <TextField label="التصنيف" value={form.category} onChange={v => setForm({ ...form, category: v })} placeholder="regular / vip / wholesale" />
-              <TextField label="ملاحظات" value={form.notes} onChange={v => setForm({ ...form, notes: v })} />
-              <Button onClick={handleSave} className="w-full gradient-secondary text-secondary-foreground font-bold">
+        <Button onClick={() => { setEditing(null); setForm(emptyForm); setErrors({}); setOpen(true); }} className="gradient-secondary text-secondary-foreground gap-2 font-bold h-8 text-xs">
+          <Plus className="w-3.5 h-3.5" /> عميل جديد
+        </Button>
+        <MicroDialog
+          open={open}
+          onOpenChange={(v) => { setOpen(v); if (!v) { setForm(emptyForm); setEditing(null); setErrors({}); } }}
+          title={editing ? 'تعديل العميل' : 'إضافة عميل جديد'}
+          icon={<User className="w-3.5 h-3.5" />}
+          size="md"
+          footer={
+            <>
+              <Button variant="ghost" size="sm" onClick={() => setOpen(false)} className="h-7 text-xs">إلغاء</Button>
+              <Button onClick={handleSave} size="sm" className="h-7 text-xs gradient-secondary text-secondary-foreground font-bold">
                 {editing ? 'تحديث' : 'حفظ'}
               </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+            </>
+          }
+        >
+          <TextField label="الاسم" value={form.name} onChange={v => setForm({ ...form, name: v })} error={errors.name} />
+          <div className="grid grid-cols-2 gap-2.5">
+            <TextField label="الهاتف" value={form.phone} onChange={v => setForm({ ...form, phone: v })} />
+            <TextField label="المدينة" value={form.city} onChange={v => setForm({ ...form, city: v })} />
+          </div>
+          <TextField label="التصنيف" value={form.category} onChange={v => setForm({ ...form, category: v })} placeholder="regular / vip / wholesale" />
+          <TextField label="ملاحظات" value={form.notes} onChange={v => setForm({ ...form, notes: v })} />
+        </MicroDialog>
       </PageHeader>
 
       <SearchBar placeholder="ابحث عن عميل..." value={search} onChange={setSearch} />

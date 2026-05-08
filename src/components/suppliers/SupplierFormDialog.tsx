@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Truck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { TextField } from '@/components/shared';
+import { TextField, MicroDialog } from '@/components/shared';
 import { supplierSchema } from '@/lib/validations';
 import { toast } from '@/hooks/use-toast';
 import { useAppStore } from '@/store/useAppStore';
@@ -56,30 +56,34 @@ export default function SupplierFormDialog({ open, onOpenChange, editing }: Prop
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent dir="rtl" className="max-w-md">
-        <DialogHeader>
-          <DialogTitle className="font-extrabold">{editing ? 'تعديل المورد' : 'إضافة مورد جديد'}</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-3 mt-2">
-          <div className="grid grid-cols-2 gap-3">
-            <TextField label="اسم المورد" value={form.name} onChange={v => setForm({ ...form, name: v })} error={errors.name} />
-            <TextField label="اسم الشركة" value={form.company_name} onChange={v => setForm({ ...form, company_name: v })} error={errors.company_name} />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <TextField label="المدينة" value={form.city} onChange={v => setForm({ ...form, city: v })} error={errors.city} />
-            <TextField label="التصنيف" value={form.product_category} onChange={v => setForm({ ...form, product_category: v })} error={errors.product_category} />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <TextField label="الهاتف" value={form.phone} onChange={v => setForm({ ...form, phone: v })} error={errors.phone} />
-            <TextField label="WeChat / WhatsApp" value={form.wechat_or_whatsapp} onChange={v => setForm({ ...form, wechat_or_whatsapp: v })} />
-          </div>
-          <TextField label="ملاحظات" value={form.notes} onChange={v => setForm({ ...form, notes: v })} />
-          <Button onClick={handleSave} className="w-full gradient-secondary text-secondary-foreground font-bold">
-            {editing ? 'تحديث المورد' : 'حفظ المورد'}
+    <MicroDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      title={editing ? 'تعديل المورد' : 'إضافة مورد جديد'}
+      icon={<Truck className="w-3.5 h-3.5" />}
+      size="md"
+      footer={
+        <>
+          <Button variant="ghost" size="sm" onClick={() => onOpenChange(false)} className="h-7 text-xs">إلغاء</Button>
+          <Button onClick={handleSave} size="sm" className="h-7 text-xs gradient-secondary text-secondary-foreground font-bold">
+            {editing ? 'تحديث' : 'حفظ'}
           </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </>
+      }
+    >
+      <div className="grid grid-cols-2 gap-2.5">
+        <TextField label="اسم المورد" value={form.name} onChange={v => setForm({ ...form, name: v })} error={errors.name} />
+        <TextField label="اسم الشركة" value={form.company_name} onChange={v => setForm({ ...form, company_name: v })} error={errors.company_name} />
+      </div>
+      <div className="grid grid-cols-2 gap-2.5">
+        <TextField label="المدينة" value={form.city} onChange={v => setForm({ ...form, city: v })} error={errors.city} />
+        <TextField label="التصنيف" value={form.product_category} onChange={v => setForm({ ...form, product_category: v })} error={errors.product_category} />
+      </div>
+      <div className="grid grid-cols-2 gap-2.5">
+        <TextField label="الهاتف" value={form.phone} onChange={v => setForm({ ...form, phone: v })} error={errors.phone} />
+        <TextField label="WeChat / WhatsApp" value={form.wechat_or_whatsapp} onChange={v => setForm({ ...form, wechat_or_whatsapp: v })} />
+      </div>
+      <TextField label="ملاحظات" value={form.notes} onChange={v => setForm({ ...form, notes: v })} />
+    </MicroDialog>
   );
 }

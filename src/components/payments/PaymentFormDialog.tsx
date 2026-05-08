@@ -1,8 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Wallet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { TextField } from '@/components/shared';
+import { TextField, MicroDialog, FormField } from '@/components/shared';
 import { toast } from '@/hooks/use-toast';
 import { useAppStore } from '@/store/useAppStore';
 import { formatNumber } from '@/lib/helpers';
@@ -45,61 +45,63 @@ export default function PaymentFormDialog({ open, onOpenChange }: { open: boolea
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent dir="rtl" className="max-w-md">
-        <DialogHeader><DialogTitle className="font-extrabold">تسجيل دفعة</DialogTitle></DialogHeader>
-        <div className="space-y-3 mt-2">
-          <div>
-            <label className="text-xs font-semibold mb-1 block">نوع الدفعة</label>
-            <Select value={form.payment_type} onValueChange={(v: 'purchase' | 'sales') => setForm({ ...form, payment_type: v, invoice_id: '' })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="purchase">دفعة لمورد (شراء)</SelectItem>
-                <SelectItem value="sales">دفعة من عميل (بيع)</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <label className="text-xs font-semibold mb-1 block">الفاتورة</label>
-            <Select value={form.invoice_id} onValueChange={v => setForm({ ...form, invoice_id: v })}>
-              <SelectTrigger><SelectValue placeholder="اختر فاتورة" /></SelectTrigger>
-              <SelectContent>
-                {invoiceOptions.length === 0 ? (
-                  <div className="p-2 text-xs text-muted-foreground">لا توجد فواتير</div>
-                ) : invoiceOptions.map(o => <SelectItem key={o.id} value={o.id}>{o.label}</SelectItem>)}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <TextField label="المبلغ" type="number" value={String(form.amount)} onChange={v => setForm({ ...form, amount: Number(v) })} />
-            <div>
-              <label className="text-xs font-semibold mb-1 block">العملة</label>
-              <Select value={form.currency} onValueChange={v => setForm({ ...form, currency: v })}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="SAR">ر.س</SelectItem>
-                  <SelectItem value="USD">$</SelectItem>
-                  <SelectItem value="CNY">¥</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="text-xs font-semibold mb-1 block">طريقة الدفع</label>
-              <Select value={form.payment_method} onValueChange={v => setForm({ ...form, payment_method: v })}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {Object.entries(PAYMENT_METHODS).map(([k, l]) => <SelectItem key={k} value={k}>{l}</SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-            <TextField label="التاريخ" type="date" value={form.date} onChange={v => setForm({ ...form, date: v })} />
-          </div>
-          <TextField label="ملاحظات" value={form.notes} onChange={v => setForm({ ...form, notes: v })} />
-          <Button onClick={handleSubmit} className="w-full gradient-secondary text-secondary-foreground font-bold">حفظ الدفعة</Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+    <MicroDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      title="تسجيل دفعة"
+      icon={<Wallet className="w-3.5 h-3.5" />}
+      size="md"
+      footer={
+        <>
+          <Button variant="ghost" size="sm" onClick={() => onOpenChange(false)} className="h-7 text-xs">إلغاء</Button>
+          <Button onClick={handleSubmit} size="sm" className="h-7 text-xs gradient-secondary text-secondary-foreground font-bold">حفظ الدفعة</Button>
+        </>
+      }
+    >
+      <FormField label="نوع الدفعة">
+        <Select value={form.payment_type} onValueChange={(v: 'purchase' | 'sales') => setForm({ ...form, payment_type: v, invoice_id: '' })}>
+          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="purchase">دفعة لمورد (شراء)</SelectItem>
+            <SelectItem value="sales">دفعة من عميل (بيع)</SelectItem>
+          </SelectContent>
+        </Select>
+      </FormField>
+      <FormField label="الفاتورة">
+        <Select value={form.invoice_id} onValueChange={v => setForm({ ...form, invoice_id: v })}>
+          <SelectTrigger><SelectValue placeholder="اختر فاتورة" /></SelectTrigger>
+          <SelectContent>
+            {invoiceOptions.length === 0 ? (
+              <div className="p-2 text-xs text-muted-foreground">لا توجد فواتير</div>
+            ) : invoiceOptions.map(o => <SelectItem key={o.id} value={o.id}>{o.label}</SelectItem>)}
+          </SelectContent>
+        </Select>
+      </FormField>
+      <div className="grid grid-cols-2 gap-2.5">
+        <TextField label="المبلغ" type="number" value={String(form.amount)} onChange={v => setForm({ ...form, amount: Number(v) })} />
+        <FormField label="العملة">
+          <Select value={form.currency} onValueChange={v => setForm({ ...form, currency: v })}>
+            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="SAR">ر.س</SelectItem>
+              <SelectItem value="USD">$</SelectItem>
+              <SelectItem value="CNY">¥</SelectItem>
+            </SelectContent>
+          </Select>
+        </FormField>
+      </div>
+      <div className="grid grid-cols-2 gap-2.5">
+        <FormField label="طريقة الدفع">
+          <Select value={form.payment_method} onValueChange={v => setForm({ ...form, payment_method: v })}>
+            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectContent>
+              {Object.entries(PAYMENT_METHODS).map(([k, l]) => <SelectItem key={k} value={k}>{l}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </FormField>
+        <TextField label="التاريخ" type="date" value={form.date} onChange={v => setForm({ ...form, date: v })} />
+      </div>
+      <TextField label="ملاحظات" value={form.notes} onChange={v => setForm({ ...form, notes: v })} />
+    </MicroDialog>
   );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Ship } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { TextField, SelectField } from '@/components/shared';
+import { TextField, SelectField, MicroDialog } from '@/components/shared';
 import { STATUS_LABELS } from '@/constants';
 import { toast } from '@/hooks/use-toast';
 import { useAppStore } from '@/store/useAppStore';
@@ -48,36 +48,42 @@ export default function ShipmentFormDialog({ open, onOpenChange, editing }: { op
   const statusOptions = TIMELINE_STAGES.map(s => ({ value: s, label: STATUS_LABELS[s] }));
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent dir="rtl" className="max-w-lg max-h-[85vh] overflow-y-auto">
-        <DialogHeader><DialogTitle className="font-extrabold">{editing ? 'تعديل الشحنة' : 'شحنة جديدة'}</DialogTitle></DialogHeader>
-        <div className="space-y-3 mt-2">
-          <div className="grid grid-cols-2 gap-3">
-            <TextField label="رقم الشحنة" value={form.shipment_number} onChange={v => setForm({ ...form, shipment_number: v })} />
-            <TextField label="الشركة" value={form.shipping_company} onChange={v => setForm({ ...form, shipping_company: v })} />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <SelectField label="نوع الشحن" value={form.shipping_type} onChange={v => setForm({ ...form, shipping_type: v })} options={[{ value: 'sea', label: 'بحري' }, { value: 'air', label: 'جوي' }]} />
-            <SelectField label="الحالة" value={form.status} onChange={v => setForm({ ...form, status: v })} options={statusOptions} />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <TextField label="ميناء المغادرة" value={form.departure_port} onChange={v => setForm({ ...form, departure_port: v })} />
-            <TextField label="ميناء الوصول" value={form.arrival_port} onChange={v => setForm({ ...form, arrival_port: v })} />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <TextField label="تاريخ الشحن" value={form.ship_date} onChange={v => setForm({ ...form, ship_date: v })} type="date" />
-            <TextField label="الوصول المتوقع" value={form.expected_arrival_date} onChange={v => setForm({ ...form, expected_arrival_date: v })} type="date" />
-          </div>
-          <div className="grid grid-cols-3 gap-3">
-            <TextField label="التكلفة $" value={form.shipping_cost} onChange={v => setForm({ ...form, shipping_cost: v })} type="number" />
-            <TextField label="الوزن (كغ)" value={form.weight} onChange={v => setForm({ ...form, weight: v })} type="number" />
-            <TextField label="الكراتين" value={form.cartons_count} onChange={v => setForm({ ...form, cartons_count: v })} type="number" />
-          </div>
-          <Button onClick={handleSave} className="w-full gradient-secondary text-secondary-foreground font-bold">
+    <MicroDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      title={editing ? 'تعديل الشحنة' : 'شحنة جديدة'}
+      icon={<Ship className="w-3.5 h-3.5" />}
+      size="lg"
+      footer={
+        <>
+          <Button variant="ghost" size="sm" onClick={() => onOpenChange(false)} className="h-7 text-xs">إلغاء</Button>
+          <Button onClick={handleSave} size="sm" className="h-7 text-xs gradient-secondary text-secondary-foreground font-bold">
             {editing ? 'تحديث' : 'حفظ'}
           </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </>
+      }
+    >
+      <div className="grid grid-cols-2 gap-2.5">
+        <TextField label="رقم الشحنة" value={form.shipment_number} onChange={v => setForm({ ...form, shipment_number: v })} />
+        <TextField label="الشركة" value={form.shipping_company} onChange={v => setForm({ ...form, shipping_company: v })} />
+      </div>
+      <div className="grid grid-cols-2 gap-2.5">
+        <SelectField label="نوع الشحن" value={form.shipping_type} onChange={v => setForm({ ...form, shipping_type: v })} options={[{ value: 'sea', label: 'بحري' }, { value: 'air', label: 'جوي' }]} />
+        <SelectField label="الحالة" value={form.status} onChange={v => setForm({ ...form, status: v })} options={statusOptions} />
+      </div>
+      <div className="grid grid-cols-2 gap-2.5">
+        <TextField label="ميناء المغادرة" value={form.departure_port} onChange={v => setForm({ ...form, departure_port: v })} />
+        <TextField label="ميناء الوصول" value={form.arrival_port} onChange={v => setForm({ ...form, arrival_port: v })} />
+      </div>
+      <div className="grid grid-cols-2 gap-2.5">
+        <TextField label="تاريخ الشحن" value={form.ship_date} onChange={v => setForm({ ...form, ship_date: v })} type="date" />
+        <TextField label="الوصول المتوقع" value={form.expected_arrival_date} onChange={v => setForm({ ...form, expected_arrival_date: v })} type="date" />
+      </div>
+      <div className="grid grid-cols-3 gap-2.5">
+        <TextField label="التكلفة $" value={form.shipping_cost} onChange={v => setForm({ ...form, shipping_cost: v })} type="number" />
+        <TextField label="الوزن (كغ)" value={form.weight} onChange={v => setForm({ ...form, weight: v })} type="number" />
+        <TextField label="الكراتين" value={form.cartons_count} onChange={v => setForm({ ...form, cartons_count: v })} type="number" />
+      </div>
+    </MicroDialog>
   );
 }

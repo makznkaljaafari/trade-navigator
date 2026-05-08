@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+
 import { Plus, ArrowLeftRight, Star, Trash2 } from 'lucide-react';
 import { PageHeader, EmptyState, EditableTable, SelectField } from '@/components/shared';
 import type { ColumnDef } from '@/components/shared';
@@ -58,11 +58,11 @@ export default function QuotationsPage() {
       {quotations.length === 0 ? (
         <EmptyState message="لا توجد عروض أسعار بعد" action={<Button onClick={addQ} className="gradient-primary text-primary-foreground gap-2"><Plus className="w-4 h-4" />إنشاء أول عرض</Button>} />
       ) : comparing && allProducts.length > 0 ? (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-card rounded-xl border border-border shadow-sm overflow-x-auto">
-          <table className="w-full min-w-[700px]">
+        <div className="bg-card rounded-xl border border-border shadow-sm overflow-x-auto">
+          <table className="w-full grid-table" style={{ minWidth: '700px' }}>
             <thead>
               <tr>
-                <th className="spreadsheet-header">المنتج</th>
+                <th className="spreadsheet-header text-right">المنتج</th>
                 {quotations.map(q => (
                   <th key={q.id} className="spreadsheet-header text-center">{supplierName(q.supplier_id).split(' ')[0]}</th>
                 ))}
@@ -75,12 +75,12 @@ export default function QuotationsPage() {
                 const minPrice = valid.length ? Math.min(...valid) : 0;
                 return (
                   <tr key={product} className="hover:bg-muted/30">
-                    <td className="spreadsheet-cell text-sm font-medium">{product}</td>
+                    <td className="spreadsheet-cell text-xs font-medium">{product}</td>
                     {prices.map((p, j) => {
                       const isBest = p === minPrice && p > 0 && valid.length > 1;
                       return (
-                        <td key={j} className={`spreadsheet-cell text-center text-sm font-bold ${isBest ? 'bg-accent/15 text-accent' : ''}`}>
-                          {p > 0 ? <span className="inline-flex items-center gap-1">{isBest && <Star className="w-3 h-3 fill-current" />}¥{p}</span> : '—'}
+                        <td key={j} className={`spreadsheet-cell text-center text-xs font-bold ${isBest ? 'bg-accent/15 text-accent' : ''}`}>
+                          {p > 0 ? <span className="inline-flex items-center gap-1">{isBest && <Star className="w-3 h-3 fill-current" />}¥{p}</span> : <span className="text-muted-foreground/50">—</span>}
                         </td>
                       );
                     })}
@@ -89,7 +89,7 @@ export default function QuotationsPage() {
               })}
             </tbody>
           </table>
-        </motion.div>
+        </div>
       ) : (
         <div className="grid gap-4 lg:grid-cols-[260px_1fr]">
           <div className="space-y-2">

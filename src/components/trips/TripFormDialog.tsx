@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Plane } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { TextField } from '@/components/shared';
+import { TextField, MicroDialog } from '@/components/shared';
 import { tripSchema } from '@/lib/validations';
 import { toast } from '@/hooks/use-toast';
 import { useAppStore } from '@/store/useAppStore';
@@ -42,25 +42,31 @@ export default function TripFormDialog({ open, onOpenChange, editing }: { open: 
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent dir="rtl" className="max-w-md">
-        <DialogHeader><DialogTitle className="font-extrabold">{editing ? 'تعديل الرحلة' : 'إضافة رحلة جديدة'}</DialogTitle></DialogHeader>
-        <div className="space-y-3 mt-2">
-          <TextField label="اسم الرحلة" value={form.name} onChange={v => setForm({ ...form, name: v })} placeholder="رحلة قوانغتشو..." error={errors.name} />
-          <div className="grid grid-cols-2 gap-3">
-            <TextField label="البلد" value={form.country} onChange={v => setForm({ ...form, country: v })} error={errors.country} />
-            <TextField label="المدينة" value={form.city} onChange={v => setForm({ ...form, city: v })} placeholder="قوانغتشو" error={errors.city} />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <TextField label="تاريخ البداية" value={form.start_date} onChange={v => setForm({ ...form, start_date: v })} type="date" error={errors.start_date} />
-            <TextField label="تاريخ النهاية" value={form.end_date} onChange={v => setForm({ ...form, end_date: v })} type="date" error={errors.end_date} />
-          </div>
-          <TextField label="ملاحظات" value={form.notes} onChange={v => setForm({ ...form, notes: v })} />
-          <Button onClick={handleSave} className="w-full gradient-secondary text-secondary-foreground font-bold">
-            {editing ? 'تحديث الرحلة' : 'حفظ الرحلة'}
+    <MicroDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      title={editing ? 'تعديل الرحلة' : 'إضافة رحلة جديدة'}
+      icon={<Plane className="w-3.5 h-3.5" />}
+      size="md"
+      footer={
+        <>
+          <Button variant="ghost" size="sm" onClick={() => onOpenChange(false)} className="h-7 text-xs">إلغاء</Button>
+          <Button onClick={handleSave} size="sm" className="h-7 text-xs gradient-secondary text-secondary-foreground font-bold">
+            {editing ? 'تحديث' : 'حفظ'}
           </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </>
+      }
+    >
+      <TextField label="اسم الرحلة" value={form.name} onChange={v => setForm({ ...form, name: v })} placeholder="رحلة قوانغتشو..." error={errors.name} />
+      <div className="grid grid-cols-2 gap-2.5">
+        <TextField label="البلد" value={form.country} onChange={v => setForm({ ...form, country: v })} error={errors.country} />
+        <TextField label="المدينة" value={form.city} onChange={v => setForm({ ...form, city: v })} placeholder="قوانغتشو" error={errors.city} />
+      </div>
+      <div className="grid grid-cols-2 gap-2.5">
+        <TextField label="تاريخ البداية" value={form.start_date} onChange={v => setForm({ ...form, start_date: v })} type="date" error={errors.start_date} />
+        <TextField label="تاريخ النهاية" value={form.end_date} onChange={v => setForm({ ...form, end_date: v })} type="date" error={errors.end_date} />
+      </div>
+      <TextField label="ملاحظات" value={form.notes} onChange={v => setForm({ ...form, notes: v })} />
+    </MicroDialog>
   );
 }

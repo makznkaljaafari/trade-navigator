@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Receipt } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { TextField, SelectField } from '@/components/shared';
+import { TextField, SelectField, MicroDialog } from '@/components/shared';
 import { expenseSchema } from '@/lib/validations';
 import { EXPENSE_CATEGORIES, CURRENCIES } from '@/constants';
 import { toast } from '@/hooks/use-toast';
@@ -36,20 +36,28 @@ export default function ExpenseFormDialog({ open, onOpenChange, editing }: { ope
   const currencyOptions = CURRENCIES.map(c => ({ value: c.code, label: c.label }));
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent dir="rtl" className="max-w-md">
-        <DialogHeader><DialogTitle className="font-extrabold">{editing ? 'تعديل المصروف' : 'إضافة مصروف'}</DialogTitle></DialogHeader>
-        <div className="space-y-3 mt-2">
-          <SelectField label="التصنيف" value={form.category} onChange={v => setForm({ ...form, category: v })} options={categoryOptions} error={errors.category} />
-          <div className="grid grid-cols-2 gap-3">
-            <TextField label="المبلغ" value={form.amount} onChange={v => setForm({ ...form, amount: v })} type="number" error={errors.amount} />
-            <SelectField label="العملة" value={form.currency} onChange={v => setForm({ ...form, currency: v })} options={currencyOptions} />
-          </div>
-          <TextField label="التاريخ" value={form.date} onChange={v => setForm({ ...form, date: v })} type="date" error={errors.date} />
-          <TextField label="ملاحظات" value={form.notes} onChange={v => setForm({ ...form, notes: v })} />
-          <Button onClick={handleSave} className="w-full gradient-primary text-primary-foreground">{editing ? 'تحديث' : 'حفظ'}</Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+    <MicroDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      title={editing ? 'تعديل المصروف' : 'إضافة مصروف'}
+      icon={<Receipt className="w-3.5 h-3.5" />}
+      size="sm"
+      footer={
+        <>
+          <Button variant="ghost" size="sm" onClick={() => onOpenChange(false)} className="h-7 text-xs">إلغاء</Button>
+          <Button onClick={handleSave} size="sm" className="h-7 text-xs gradient-primary text-primary-foreground">
+            {editing ? 'تحديث' : 'حفظ'}
+          </Button>
+        </>
+      }
+    >
+      <SelectField label="التصنيف" value={form.category} onChange={v => setForm({ ...form, category: v })} options={categoryOptions} error={errors.category} />
+      <div className="grid grid-cols-2 gap-2.5">
+        <TextField label="المبلغ" value={form.amount} onChange={v => setForm({ ...form, amount: v })} type="number" error={errors.amount} />
+        <SelectField label="العملة" value={form.currency} onChange={v => setForm({ ...form, currency: v })} options={currencyOptions} />
+      </div>
+      <TextField label="التاريخ" value={form.date} onChange={v => setForm({ ...form, date: v })} type="date" error={errors.date} />
+      <TextField label="ملاحظات" value={form.notes} onChange={v => setForm({ ...form, notes: v })} />
+    </MicroDialog>
   );
 }

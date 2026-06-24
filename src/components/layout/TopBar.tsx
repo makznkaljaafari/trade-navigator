@@ -17,16 +17,16 @@ export function TopBar({ title, onMenuClick }: { title: string; onMenuClick: () 
 
   return (
     <header className="sticky top-0 z-30 bg-background/70 backdrop-blur-2xl border-b border-border/60">
-      <div className="px-2.5 lg:px-4 py-1.5 flex items-center gap-1.5">
+      <div className="px-2 lg:px-3.5 py-1 flex items-center gap-1.5">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-1.5 -mr-1 rounded-md hover:bg-muted transition-colors"
+          className="lg:hidden p-1 -mr-1 rounded-md hover:bg-muted transition-colors"
           aria-label="فتح القائمة"
         >
-          <Menu className="w-4 h-4" />
+          <Menu className="w-3.5 h-3.5" />
         </button>
         <div className="flex-1 min-w-0">
-          <h2 className="text-xs lg:text-sm font-bold truncate">{title}</h2>
+          <h2 className="text-[11px] lg:text-[13px] font-bold truncate">{title}</h2>
         </div>
         <NotificationBell />
         <DropdownMenu>

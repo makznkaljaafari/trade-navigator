@@ -41,18 +41,18 @@ export function StatCard({ title, value, icon: Icon, trend, trendUp, variant = '
   const config = variantConfig[variant];
 
   return (
-    <div className={`rounded-lg p-2.5 lg:p-3 ${config.card}`}>
-      <div className="flex items-start justify-between mb-1.5">
-        <span className={`text-[10px] lg:text-[11px] font-medium ${config.sub}`}>{title}</span>
-        <div className={`p-1 lg:p-1.5 rounded-md ${config.icon}`}>
-          <Icon className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
+    <div className={`rounded-lg p-2 lg:p-2.5 ${config.card}`}>
+      <div className="flex items-start justify-between mb-1">
+        <span className={`text-[9px] lg:text-[10px] font-medium ${config.sub}`}>{title}</span>
+        <div className={`p-0.5 lg:p-1 rounded-md ${config.icon}`}>
+          <Icon className="w-2.5 h-2.5 lg:w-3 lg:h-3" />
         </div>
       </div>
-      <div className={`text-sm lg:text-base font-extrabold ${config.text} tracking-tight tabular-nums`}>{value}</div>
+      <div className={`text-[13px] lg:text-sm font-extrabold ${config.text} tracking-tight tabular-nums`}>{value}</div>
       {trend && (
-        <div className={`flex items-center gap-0.5 mt-1 ${trendUp ? 'text-success' : 'text-destructive'}`}>
-          {trendUp ? <TrendingUp className="w-2.5 h-2.5" /> : <TrendingDown className="w-2.5 h-2.5" />}
-          <span className="text-[9px] font-semibold">{trend}</span>
+        <div className={`flex items-center gap-0.5 mt-0.5 ${trendUp ? 'text-success' : 'text-destructive'}`}>
+          {trendUp ? <TrendingUp className="w-2 h-2" /> : <TrendingDown className="w-2 h-2" />}
+          <span className="text-[8px] font-semibold">{trend}</span>
         </div>
       )}
     </div>

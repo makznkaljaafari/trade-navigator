@@ -61,11 +61,12 @@ export function NotificationBell() {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="relative p-2 rounded-xl hover:bg-muted transition-colors"
+        className="relative p-1.5 rounded-lg hover:bg-muted transition-colors"
+        aria-label="الإشعارات"
       >
-        <Bell className="w-5 h-5" />
+        <Bell className="w-4 h-4" />
         {notifications.length > 0 && (
-          <span className="absolute -top-0.5 -left-0.5 w-4.5 h-4.5 min-w-[18px] min-h-[18px] text-[10px] font-bold bg-destructive text-destructive-foreground rounded-full flex items-center justify-center">
+          <span className="absolute -top-0.5 -left-0.5 min-w-[15px] h-[15px] px-1 text-[9px] font-bold bg-destructive text-destructive-foreground rounded-full flex items-center justify-center">
             {notifications.length}
           </span>
         )}
